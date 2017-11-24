@@ -1,7 +1,7 @@
 <?php
 print_r($_GET);
 
-$page = "./includes/dbFunctions.php";
+$page = "./includes/dbfunctions.php";
 include $page;
 
 if (isset($_POST['gender']) and ( $_POST['txtFirstname']) and ( $_POST['txtNachname']) and ( $_POST['txtAddresse']) and ( $_POST['txtZipCode']) and ( $_POST['txtCity']) and ( $_POST['txtEmail']) and ( $_POST['txtPassword'])) {
@@ -30,7 +30,7 @@ if (isset($_POST['gender']) and ( $_POST['txtFirstname']) and ( $_POST['txtNachn
 <h1>Registrierung</h1>
 
 
-<form name ="registration" method="post" onsubmit="createUser()" action="index.php?page=registration">
+<form name ="registration" method="post" action="index.php?page=registration">
     <div class="form-group">
         <select name="gender" class="form-control">
             <option value="male">Herr</option>
@@ -53,7 +53,7 @@ if (isset($_POST['gender']) and ( $_POST['txtFirstname']) and ( $_POST['txtNachn
     </div>
     <div class="form-group">
         <label for="txtZipCode">PLZ</label>
-        <input type="text" class="form-control" name="txtZipCode" placeholder="PLZ">
+        <input type="number" class="form-control" name="txtZipCode" placeholder="PLZ">
     </div>
     <div class="form-group">
         <label for="txtCity">Ort</label>
