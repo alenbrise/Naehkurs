@@ -6,26 +6,24 @@ include $page;
 
 if (isset($_POST['gender']) and ( $_POST['txtFirstname']) and ( $_POST['txtNachname']) and ( $_POST['txtAddresse']) and ( $_POST['txtZipCode']) and ( $_POST['txtCity']) and ( $_POST['txtEmail']) and ( $_POST['txtPassword'])) {
     $gender = $_POST['gender'];
-    $firstName = $_POST['txtFirstname'];
-    $nachname = $_POST['txtNachname'];
-    $adresse = $_POST['txtAddresse'];
-    $zipCode = $_POST['txtZipCode'];
+    $firstname = $_POST['txtFirstname'];
+    $lastname = $_POST['txtNachname'];
+    $address = $_POST['txtAddresse'];
+    $zipcode = $_POST['txtZipCode'];
     $city = $_POST['txtCity'];
     $email = $_POST['txtEmail'];
     $password1 = $_POST['txtPassword'];
     $password2 = $_POST['txtPasswordRepeat'];
     $pass = md5($password1);
+    
+    createUser($gender, $firstname, $lastname, $address, $zipcode, $city, $email, $password1, $password2, $pass);
 
-    createUser($gender, $firstName, $nachname, $adresse, $zipCode, $city, $email, $password1, $password2, $pass);
-
-
-    /* $user = createUser($firstName, $nachname, $adresse, $zipCode, $city, $email, $password1, $password2);
+    /* $user = checkUser($firstName, $nachname, $adresse, $zipCode, $city, $email, $password1, $password2);
       if($user){
       echo "user erstellt";
       }else{
       echo "nicht funktioniert";
-      }
-     * */
+      } */
 }
 ?>
 
