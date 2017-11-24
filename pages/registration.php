@@ -11,12 +11,15 @@ if (isset ($_POST['txtFirstname']) and ($_POST['txtNachname']) and ($_POST['txtA
     $zipCode = $_POST['txtZipCode'];
     $city = $_POST['txtCity'];
     $email = $_POST['txtEmail'];
-    $password = $_POST['password'];
+    $password1 = $_POST['txtPassword'];
+    $password2 = $_POST['txtPasswordRepeat'];
 
-    createUser($firstName, $nachname, $adresse, $zipCode, $city, $email, $password);
-    echo "hallo";
-}else{
-    echo "nicht funktioniert";
+    $user = createUser($firstName, $nachname, $adresse, $zipCode, $city, $email, $password1, $password2);
+    if($user){
+        echo "user erstellt";
+    }else{
+        echo "nicht funktioniert";
+    }
 }
 
 ?>
@@ -24,7 +27,7 @@ if (isset ($_POST['txtFirstname']) and ($_POST['txtNachname']) and ($_POST['txtA
 <h1>Registrierung</h1>
 
 
-<form method="post" action="index.php?page=registration">
+<form name ="registration" method="post" onsubmit="return createUser()" action="index.php?page=registration">
     <div class="form-group">
         <select name="gender" class="form-control">
             <option value="male">Herr</option>
@@ -65,5 +68,5 @@ if (isset ($_POST['txtFirstname']) and ($_POST['txtNachname']) and ($_POST['txtA
         <label for="txtPasswordRepeat">Passwort wiederholen</label>
         <input type="password" class="form-control" id="txtPasswordRepeat" placeholder="Passwort wiederholen">
     </div>
-    <button type="submit">Submit</button>
+    <button type="submit" >Submit</button>
 </form>
