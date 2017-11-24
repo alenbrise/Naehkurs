@@ -4,7 +4,7 @@ print_r($_GET);
 $page = "./includes/dbFunctions.php";
 include $page;
 
-if (isset ($_POST['gender']) and ($_POST['txtFirstname']) and ($_POST['txtNachname']) and ($_POST['txtAddresse']) and ($_POST['txtZipCode']) and ($_POST['txtCity']) and ($_POST['txtEmail']) and ($_POST['txtPassword'])){
+if (isset($_POST['gender']) and ( $_POST['txtFirstname']) and ( $_POST['txtNachname']) and ( $_POST['txtAddresse']) and ( $_POST['txtZipCode']) and ( $_POST['txtCity']) and ( $_POST['txtEmail']) and ( $_POST['txtPassword'])) {
     $gender = $_POST['gender'];
     $firstName = $_POST['txtFirstname'];
     $nachname = $_POST['txtNachname'];
@@ -15,21 +15,18 @@ if (isset ($_POST['gender']) and ($_POST['txtFirstname']) and ($_POST['txtNachna
     $password1 = $_POST['txtPassword'];
     $password2 = $_POST['txtPasswordRepeat'];
     $pass = md5($password1);
-    
+
     createUser($gender, $firstName, $nachname, $adresse, $zipCode, $city, $email, $password1, $password2, $pass);
-    
 
-    /*$user = createUser($firstName, $nachname, $adresse, $zipCode, $city, $email, $password1, $password2);
-    if($user){
-        echo "user erstellt";
-    }else{
-        echo "nicht funktioniert";
-    }
+
+    /* $user = createUser($firstName, $nachname, $adresse, $zipCode, $city, $email, $password1, $password2);
+      if($user){
+      echo "user erstellt";
+      }else{
+      echo "nicht funktioniert";
+      }
      * */
-}else{
-    echo "user nicht registriert";
 }
-
 ?>
 
 <h1>Registrierung</h1>
@@ -53,8 +50,8 @@ if (isset ($_POST['gender']) and ($_POST['txtFirstname']) and ($_POST['txtNachna
     </div>
 
     <div class="form-group">
-        <label for="txtAddresse">Addresse</label>
-        <input type="text" class="form-control" name="txtAddresse" placeholder="Addresse">
+        <label for="txtAddresse">Adresse</label>
+        <input type="text" class="form-control" name="txtAddresse" placeholder="Adresse">
     </div>
     <div class="form-group">
         <label for="txtZipCode">PLZ</label>
