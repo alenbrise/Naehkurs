@@ -3,11 +3,11 @@
 <form method="post" action="index.php?page=login">
     <div class="form-group">
         <label for="txtEmail">Email:</label>
-        <input type="email" class="form-control" id="txtEmail" placeholder="E-Mail eingebgen">
+        <input type="email" class="form-control" name="txtEmail" placeholder="E-Mail eingebgen">
     </div>
     <div class="form-group">
         <label for="txtPasswort">Passwort:</label>
-        <input type="password" class="form-control" id="txtPasswort" placeholder="Passwort">
+        <input type="password" class="form-control" name="txtPasswort" placeholder="Passwort">
     </div>
     <button type="submit">Anmelden</button>
 
