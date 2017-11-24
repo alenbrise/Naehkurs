@@ -1,8 +1,5 @@
 <?php
-print_r($_GET);
-
-$page = "./includes/dbfunctions.php";
-include $page;
+include "./includes/dbfunctions.php";
 
 if (isset($_POST['gender']) and ( $_POST['txtFirstname']) and ( $_POST['txtNachname']) and ( $_POST['txtAddresse']) and ( $_POST['txtZipCode']) and ( $_POST['txtCity']) and ( $_POST['txtEmail']) and ( $_POST['txtPassword'])) {
     $gender = $_POST['gender'];
@@ -17,6 +14,7 @@ if (isset($_POST['gender']) and ( $_POST['txtFirstname']) and ( $_POST['txtNachn
     $pass = md5($password1);
     
     createUser($gender, $firstname, $lastname, $address, $zipcode, $city, $email, $password1, $password2, $pass);
+}
 
     /* $user = checkUser($firstName, $nachname, $adresse, $zipCode, $city, $email, $password1, $password2);
       if($user){
@@ -24,7 +22,7 @@ if (isset($_POST['gender']) and ( $_POST['txtFirstname']) and ( $_POST['txtNachn
       }else{
       echo "nicht funktioniert";
       } */
-}
+
 ?>
 
 <h1>Registrierung</h1>
@@ -64,12 +62,12 @@ if (isset($_POST['gender']) and ( $_POST['txtFirstname']) and ( $_POST['txtNachn
         <input type="email" class="form-control" name="txtEmail" aria-describedby="emailHelp" placeholder="E-Mail eingebgen">
     </div>
     <div class="form-group">
-        <label for="txtPassword">Password</label>
+        <label for="txtPassword">Passwort</label>
         <input type="password" class="form-control" name="txtPassword" placeholder="Password">
     </div>
     <div class="form-group">
         <label for="txtPasswordRepeat">Passwort wiederholen</label>
         <input type="password" class="form-control" name="txtPasswordRepeat" placeholder="Passwort wiederholen">
     </div>
-    <button type="submit" >Submit</button>
+    <button type="submit" >Registrieren</button>
 </form>

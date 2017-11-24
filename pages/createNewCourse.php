@@ -25,7 +25,7 @@ if (isset($_POST['txtCoursename']) and ( $_POST['txtCoursetext']) and ( $_POST['
     </div>
     <div class="form-group">
         <label for="txtCoursetext">Kursbeschreibung</label>
-        <textarea class="form-control" name="txtCoursetext" rows="5" cols="20" placeholder="Kursbeschreibung">
+        <textarea class="form-control" name="txtCoursetext" rows="5" cols="20">
         </textarea>
     </div>
     <div class="form-group">
