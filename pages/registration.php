@@ -4,7 +4,8 @@ print_r($_GET);
 $page = "./includes/dbFunctions.php";
 include $page;
 
-if (isset ($_POST['txtFirstname']) and ($_POST['txtNachname']) and ($_POST['txtAddresse']) and ($_POST['txtZipCode']) and ($_POST['txtCity']) and ($_POST['txtEmail']) and ($_POST['txtPassword'])){
+if (isset ($_POST['gender']) and ($_POST['txtFirstname']) and ($_POST['txtNachname']) and ($_POST['txtAddresse']) and ($_POST['txtZipCode']) and ($_POST['txtCity']) and ($_POST['txtEmail']) and ($_POST['txtPassword'])){
+    $gender = $_POST['gender'];
     $firstName = $_POST['txtFirstname'];
     $nachname = $_POST['txtNachname'];
     $adresse = $_POST['txtAddresse'];
@@ -13,13 +14,20 @@ if (isset ($_POST['txtFirstname']) and ($_POST['txtNachname']) and ($_POST['txtA
     $email = $_POST['txtEmail'];
     $password1 = $_POST['txtPassword'];
     $password2 = $_POST['txtPasswordRepeat'];
+    $pass = md5($password1);
+    
+    createUser($gender, $firstName, $nachname, $adresse, $zipCode, $city, $email, $password1, $password2, $pass);
+    
 
-    $user = createUser($firstName, $nachname, $adresse, $zipCode, $city, $email, $password1, $password2);
+    /*$user = createUser($firstName, $nachname, $adresse, $zipCode, $city, $email, $password1, $password2);
     if($user){
         echo "user erstellt";
     }else{
         echo "nicht funktioniert";
     }
+     * */
+}else{
+    echo "user nicht registriert";
 }
 
 ?>
@@ -27,7 +35,7 @@ if (isset ($_POST['txtFirstname']) and ($_POST['txtNachname']) and ($_POST['txtA
 <h1>Registrierung</h1>
 
 
-<form name ="registration" method="post" onsubmit="return createUser()" action="index.php?page=registration">
+<form name ="registration" method="post" onsubmit="createUser()" action="index.php?page=registration">
     <div class="form-group">
         <select name="gender" class="form-control">
             <option value="male">Herr</option>
@@ -37,36 +45,36 @@ if (isset ($_POST['txtFirstname']) and ($_POST['txtNachname']) and ($_POST['txtA
 
     <div class="form-group">
         <label for="txtFirstname">Vorname</label>
-        <input type="text" class="form-control" id="txtFirstname" placeholder="Vorname">
+        <input type="text" class="form-control" name="txtFirstname" placeholder="Vorname">
     </div>
     <div class="form-group">
         <label for="txtNachname">Nachname</label>
-        <input type="text" class="form-control" id="txtNachname" placeholder="Nachname">
+        <input type="text" class="form-control" name="txtNachname" placeholder="Nachname">
     </div>
 
     <div class="form-group">
         <label for="txtAddresse">Addresse</label>
-        <input type="text" class="form-control" id="txtAddresse" placeholder="Addresse">
+        <input type="text" class="form-control" name="txtAddresse" placeholder="Addresse">
     </div>
     <div class="form-group">
         <label for="txtZipCode">PLZ</label>
-        <input type="text" class="form-control" id="txtZipCode" placeholder="PLZ">
+        <input type="text" class="form-control" name="txtZipCode" placeholder="PLZ">
     </div>
     <div class="form-group">
         <label for="txtCity">Ort</label>
-        <input type="text" class="form-control" id="txtCity" placeholder="Ort">
+        <input type="text" class="form-control" name="txtCity" placeholder="Ort">
     </div>
     <div class="form-group">
         <label for="txtEmail">Email</label>
-        <input type="email" class="form-control" id="txtEmail" aria-describedby="emailHelp" placeholder="E-Mail eingebgen">
+        <input type="email" class="form-control" name="txtEmail" aria-describedby="emailHelp" placeholder="E-Mail eingebgen">
     </div>
     <div class="form-group">
         <label for="txtPassword">Password</label>
-        <input type="password" class="form-control" id="txtPassword" placeholder="Password">
+        <input type="password" class="form-control" name="txtPassword" placeholder="Password">
     </div>
     <div class="form-group">
         <label for="txtPasswordRepeat">Passwort wiederholen</label>
-        <input type="password" class="form-control" id="txtPasswordRepeat" placeholder="Passwort wiederholen">
+        <input type="password" class="form-control" name="txtPasswordRepeat" placeholder="Passwort wiederholen">
     </div>
     <button type="submit" >Submit</button>
 </form>
