@@ -1,7 +1,6 @@
 <?php
 
-$page ="./includes/dbfunctions.php";
-include $page;
+include "./includes/dbfunctions.php";
 
 if (isset($_POST['txtCoursename']) and ( $_POST['txtCoursetext']) and ( $_POST['txtCourseplace'])and ( $_POST['txtCoursedate']) and ( $_POST['txtPrice']) and ( $_POST['txtMax']) and ( $_POST['txtMin'])) {
     $coursename = $_POST['txtCoursename'];

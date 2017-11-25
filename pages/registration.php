@@ -1,6 +1,6 @@
 <?php
 include "./includes/dbfunctions.php";
-
+  
 if (isset($_POST['gender']) and ( $_POST['txtFirstname']) and ( $_POST['txtNachname']) and ( $_POST['txtAddresse']) and ( $_POST['txtZipCode']) and ( $_POST['txtCity']) and ( $_POST['txtEmail']) and ( $_POST['txtPassword'])) {
     $gender = $_POST['gender'];
     $firstname = $_POST['txtFirstname'];
@@ -15,6 +15,8 @@ if (isset($_POST['gender']) and ( $_POST['txtFirstname']) and ( $_POST['txtNachn
     
     createUser($gender, $firstname, $lastname, $address, $zipcode, $city, $email, $password1, $password2, $pass);
 }
+    
+
 
     /* $user = checkUser($firstName, $nachname, $adresse, $zipCode, $city, $email, $password1, $password2);
       if($user){
@@ -28,7 +30,7 @@ if (isset($_POST['gender']) and ( $_POST['txtFirstname']) and ( $_POST['txtNachn
 <h1>Registrierung</h1>
 
 
-<form name ="registration" method="post" action="index.php?page=registration">
+<form name ="registration" method="post" onsubmit="onSumbit()" action="index.php?page=registration">
     <div class="form-group">
         <select name="gender" class="form-control">
             <option value="male">Herr</option>
