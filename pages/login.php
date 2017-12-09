@@ -18,6 +18,7 @@ if (isset($_POST['txtEmail']) AND isset($_POST['txtPasswort'])) {
 
     if ($count == 1) {
         header("Location:pages/userHome.php");
+        sendMail($email, "Barbara", "", "123456");
     } else {
         alert("Login hat nicht geklappt. \\nVersuchen Sie es erneut!");
     }
