@@ -2,7 +2,7 @@
 
 include "./includes/dbfunctions.php";
 
-if (isset($_POST['txtCoursename']) and ( $_POST['txtCoursetext']) and ( $_POST['txtCourseplace'])and ( $_POST['txtCoursedate']) and ( $_POST['txtPrice']) and ( $_POST['txtMax']) and ( $_POST['txtMin'])) {
+if (isset($_POST['txtCoursename']) and ( $_POST['txtCoursetext']) and ( $_POST['txtCourseplace'])and ( $_POST['txtCoursedate']) and ( $_POST['txtPrice']) and ( $_POST['txtMax']) and ( $_POST['txtMin']) and ($_POST['txtTime'])) {
     $coursename = $_POST['txtCoursename'];
     $coursetext = $_POST['txtCoursetext'];
     $courseplace = $_POST['txtCourseplace'];
@@ -10,8 +10,9 @@ if (isset($_POST['txtCoursename']) and ( $_POST['txtCoursetext']) and ( $_POST['
     $price = $_POST['txtPrice'];
     $max = $_POST['txtMax'];
     $min = $_POST['txtMin'];
+    $time = $_POST['txtTime'];
 
-    createCourse($coursename, $coursetext, $courseplace, $coursedate, $price, $max, $min);
+    createCourse($coursename, $coursetext, $courseplace, $coursedate, $price, $max, $min, $time);
     
 }
     ?>
@@ -46,6 +47,10 @@ if (isset($_POST['txtCoursename']) and ( $_POST['txtCoursetext']) and ( $_POST['
     <div class="form-group">
         <label for="txtMin">Min. Pl&auml;tze</label>
         <input type="number" class="form-control" name="txtMin" placeholder="Min. Pl&auml;tze">
+    </div>
+     <div class="form-group">
+        <label for="txtTime">Uhrzeit</label>
+        <input type="text" class="form-control" name="txtTime" placeholder="20:00">
     </div>
     <button type="submit" >Kurs erstellen</button>
 </form>

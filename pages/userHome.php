@@ -1,15 +1,5 @@
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>Tabelle ausgeben</title>
-        <style type="text/css">
-            body, th {color:black; font-family:arial}
-            a:link{color:black;text-decoration: none}
-            a:visited {color:black;text-decoration: none}
-        </style>
-    </head>
-    <body>
-        <h2> Ausgabe der Logins-Tabelle</h2>
+
+        <h1> Kursübersicht</h1>
         <?php
         require "./includes/db.inc.php"; //anstelle von include, weil unbedingt erforderlich
         $linecolor = false;
@@ -63,5 +53,3 @@
         echo "</table>";
         mysqli_close($link);
         ?>
-    </body>
-</html>
