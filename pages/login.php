@@ -17,8 +17,11 @@ if (isset($_POST['txtEmail']) AND isset($_POST['txtPasswort'])) {
     $count = mysqli_num_rows($ergebnis);
 
     if ($count == 1) {
-        header("Location:pages/userHome.php");
-        sendMail($email, "Barbara", "", "123456");
+        if($email=="anasti@bluewin.ch"){
+            header("Location:index.php?page=adminHome");
+        }else{
+            header("Location:index.php?page=userHome");
+        }
     } else {
         alert("Login hat nicht geklappt. \\nVersuchen Sie es erneut!");
     }
