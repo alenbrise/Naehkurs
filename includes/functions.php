@@ -43,5 +43,7 @@ $context = stream_context_create($options);
 $response = file_get_contents("https://api.sendgrid.com/v3/mail/send", false, $context);
 echo json_decode($response);
 }
+
+
 ?>
 

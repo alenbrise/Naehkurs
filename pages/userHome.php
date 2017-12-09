@@ -22,7 +22,7 @@
         $link = mysqli_connect("localhost",$benutzer,$passwort) or die("Keine Verbindung zum Localhost möglich.");
         mysqli_select_db($link, $dbname) or die("DB nicht gefunden");
         
-        $abfrage="SELECT Kursname, Kursbeschreibung, Kursdatum FROM `kurs` WHERE Kursdatum >= Curdate()ORDER BY $sortieren";
+        $abfrage="SELECT Kurs_ID, Kursname, Kursbeschreibung, Kursdatum FROM `kurs` WHERE Kursdatum >= Curdate()ORDER BY $sortieren";
         
         $res = mysqli_query($link, $abfrage) or die("Abfrage nicht geklappt");
         
@@ -31,9 +31,11 @@
         
         //wir stellen den tabellentitel als sortierlink dar
         echo "<tr bgcolor='#DCDCDC'>";
+        echo "<th>Kursnummer</th>";
         echo "<th>Kursname</th>";
         echo "<th>Kursbeschreibung</th>";
         echo "<th>Kursdatum</th>";
+        echo "</th>";
         echo "</tr>";
         //Tabelleninhalt auflisten
         
@@ -51,7 +53,11 @@
             
              while(list($key, $value)=each ($zeile)){
                  echo "<td>".$value."</td>";//könnte auch den $key ausgeben
+                 if($key == "Kurs_ID"){
+                     $row = $value;
+                 }
             }
+            echo "<td><a href=index.php?page=courseDetail&courseID=$row>mehr</a></td>";
             echo"</tr>";
         }
         echo "</table>";
