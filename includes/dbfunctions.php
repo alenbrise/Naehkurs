@@ -8,6 +8,19 @@ function getDbConnection(){
     return $link;
 }
 
+function isAdmin($email, $pass){
+    $link = getDbConnection();
+    
+    $query = "SELECT Benutzer_ID, IsAdmin, Email, Passwort FROM `benutzer` WHERE Email='$email' and Passwort='$pass'";
+    $res = mysqli_query($link, $query) or die("Email oder Passwort stimmt nicht!");
+    $isAdmin = false;
+    while ($row = mysqli_fetch_Assoc($res)) {        
+        $isAdmin  = $row["IsAdmin"];
+    }
+    return $isAdmin;
+    //$count = mysqli_num_rows($res);
+}
+
 //reset Password for given E-Mail-Address
 function setPassword($email, $password) {    
     $link = getDbConnection();

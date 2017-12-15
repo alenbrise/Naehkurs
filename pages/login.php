@@ -1,26 +1,36 @@
 <?php
-if(isset($_GET['forwarded'])){
+if (isset($_GET['forwarded'])) {
+    if ($_GET['forwarded']==1) {
     prompt("Ihr neues Passwort sollten Sie in Kürze per E-Mail erhalten!");
+    }
+    if($_GET['forwarded']==2){
+    prompt("Sie haben hier keinen Zutritt!");
+    }
 }
+
 if (isset($_POST['txtEmail']) AND isset($_POST['txtPasswort'])) {
     $email = $_POST['txtEmail'];
     $pass = $_POST['txtPasswort'];
     $pass = md5($pass);
 
     // Datenbankverbindung
-   
+
 
     $link = getDbConnection();
 
     // prüfen ob es user und passwort gibt
-    $abfrage = "SELECT Email, Passwort FROM `benutzer` WHERE Email='$email' and Passwort='$pass'";
-    $ergebnis = mysqli_query($link, $abfrage) or die("Email oder Passwort stimmt nicht!");
-    $count = mysqli_num_rows($ergebnis);
-
+    $abfrage = "SELECT Benutzer_ID, IsAdmin, Email, Passwort FROM `benutzer` WHERE Email='$email' and Passwort='$pass'";
+    $res = mysqli_query($link, $abfrage) or die("Email oder Passwort stimmt nicht!");
+    $count = mysqli_num_rows($res);
+    
     if ($count == 1) {
-        if($email=="anasti@bluewin.ch"){
+        $isAdmin = isAdmin($email, $pass);
+        
+        setSessionID($email, $isAdmin);
+        
+        if ($isAdmin) {
             header("Location:index.php?page=adminHome");
-        }else{
+        } else {
             header("Location:index.php?page=userHome");
         }
     } else {

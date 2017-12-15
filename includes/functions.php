@@ -1,5 +1,26 @@
 <?php
 
+function setSessionID($email, $isAdmin){
+    $_SESSION['benutzer_id'] = $email;
+    if($isAdmin){
+        $_SESSION['is_admin'] = true;    
+    }
+    
+}
+
+function isLoggedIn(){
+    if(isset($_SESSION['benutzer_id'])){
+        return true;
+    }
+    return false;
+}
+
+function isLoggedAsAdmin(){
+    if(isset($_SESSION['is_admin'])){
+        return true;
+    }
+    return false;
+}
 
 //prompts a message
 function prompt($message) {
