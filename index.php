@@ -5,12 +5,8 @@ include "./includes/config.inc.php";
 include "./includes/dbfunctions.php";
 include "./includes/functions.php";
 
-$page = "./pages/";
-if (!isset($_GET['page']) || $_GET['page']=='' || !isLoggedIn()) {
-    $page .= 'startpage.php';
-} else {
-    $page .= $_GET['page'] . '.php';
-}
+route();
+
 ?>
 
 <html>

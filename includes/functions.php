@@ -22,6 +22,24 @@ function isLoggedAsAdmin(){
     return false;
 }
 
+function route(){
+    $page = "./pages/";
+    if (!isset($_GET['page']) || $_GET['page']=='' || !isLoggedIn()) {
+        $page .= 'startpage.php';
+    } else {
+        if (isLoggedAsAdmin()){
+            routeToAdmin();
+            return;
+        }
+        $page .= $_GET['page'] . '.php';
+    }
+}
+
+function routeToAdmin(){
+    $page = "./pages/admin/".$_GET['page'] . '.php';
+
+}
+
 //prompts a message
 function prompt($message) {
     echo "<script type='text/javascript'> alert('$message'); </script>";

@@ -29,7 +29,7 @@ if (isset($_POST['txtEmail']) AND isset($_POST['txtPasswort'])) {
         setSessionID($email, $isAdmin);
         
         if ($isAdmin) {
-            header("Location:index.php?page=adminHome");
+            header("Location:index.php?page=adminHome&isAdmin=1");
         } else {
             header("Location:index.php?page=userHome");
         }
