@@ -22,23 +22,34 @@ function isLoggedAsAdmin(){
     return false;
 }
 
-function route(){
+function routeToPage(){
     $page = "./pages/";
-    if (!isset($_GET['page']) || $_GET['page']=='' || !isLoggedIn()) {
-        $page .= 'startpage.php';
+    
+    if (!isset($_GET['page']) || $_GET['page']=='') {
+        return getStartpage();
     } else {
-        if (isLoggedAsAdmin()){
-            return routeToAdmin();
-        }
         $page .= $_GET['page'] . '.php';
     }
     return $page;
 }
 
-function routeToAdmin(){
-    return "./pages/admin/".$_GET['page'] . '.php';
-
+function forwardToStartpage(){
+    header("Location: " . 'index.php?page=startpage');
 }
+function getStartpage(){
+    return "./pages/startpage.php";
+}
+function checkForAuthorization($needAdminPermission){
+    if($needAdminPermission){
+        if(!isLoggedAsAdmin()){
+            forwardToStartpage();
+        }
+    }
+    if(!isLoggedIn()){
+        forwardToStartpage();
+    }
+}
+
 
 //prompts a message
 function prompt($message) {

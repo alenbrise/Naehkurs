@@ -1,3 +1,4 @@
+<?php checkForAuthorization(true); ?>
 <h1>Hallo Admin!</h1>
 <?php
 

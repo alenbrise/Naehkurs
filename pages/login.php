@@ -20,7 +20,7 @@ if (isset($_POST['txtEmail']) AND isset($_POST['txtPasswort'])) {
 
     // prüfen ob es user und passwort gibt
     $abfrage = "SELECT Benutzer_ID, IsAdmin, Email, Passwort FROM `benutzer` WHERE Email='$email' and Passwort='$pass'";
-    $res = mysqli_query($link, $abfrage) or die("Email oder Passwort stimmt nicht!");
+    $res = mysqli_query($link, $abfrage) or die("Verbindung zu Datenbank fehlgeschlagen");
     $count = mysqli_num_rows($res);
     
     if ($count == 1) {
@@ -29,7 +29,7 @@ if (isset($_POST['txtEmail']) AND isset($_POST['txtPasswort'])) {
         setSessionID($email, $isAdmin);
         
         if ($isAdmin) {
-            header("Location:index.php?page=adminHome&isAdmin=1");
+            header("Location:index.php?page=adminHome");
         } else {
             header("Location:index.php?page=userHome");
         }

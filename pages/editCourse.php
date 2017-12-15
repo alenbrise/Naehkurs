@@ -1,8 +1,8 @@
 
 
 <?php
+checkForAuthorization(true);
 
-require "./includes/db.inc.php";
 $courseID = $_GET['courseID'];
 
 $link =  getDbConnection();

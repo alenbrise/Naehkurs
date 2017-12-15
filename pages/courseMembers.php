@@ -1,4 +1,6 @@
 <?php 
+checkForAuthorization(true);
+
 $courseID = $_GET['courseID'];
 $link =  getDbConnection();
 $linecolor = false;

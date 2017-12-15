@@ -19,7 +19,7 @@ include "./includes/functions.php";
     <div class="row">
         <div class="col col-lg-9">
             <?php
-            include route();
+            include routeToPage();
             ?>
         </div>
         <div class="col col-lg-3">
