@@ -1,4 +1,7 @@
 <?php
+if(isset($_GET['forwarded'])){
+    prompt("Ihr neues Passwort sollten Sie in Kürze per E-Mail erhalten!");
+}
 if (isset($_POST['txtEmail']) AND isset($_POST['txtPasswort'])) {
     $email = $_POST['txtEmail'];
     $pass = $_POST['txtPasswort'];

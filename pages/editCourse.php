@@ -10,10 +10,12 @@ $link =  getDbConnection();
 $abfrage = "SELECT Kurs_ID, Kursname, Kursbeschreibung, Kursdatum, Kursort, Kursstatus, Preis, Max_Plaetze, Min_Plaetze, Freie_Plaetze, Kurszeit FROM `kurs` WHERE Kurs_ID = $courseID";
 $res = mysqli_query($link, $abfrage) or die("Abfrage nicht geklappt");
 
+//form fields are filled with current values
 $courseDetails = array();
 while ($zeile = mysqli_fetch_Assoc($res)) {
     while (list($key, $value) = each($zeile)) {
         $courseDetails[$key] = $value;
+        $courseID
     }
 }
 
@@ -26,9 +28,9 @@ if (isset($_POST['txtCoursename']) and ( $_POST['txtCoursetext']) and ( $_POST['
     $max = $_POST['txtMax'];
     $min = $_POST['txtMin'];
     $time = $_POST['txtTime'];
+    
+    $update = "UPDATE `kurs`SET kursname='$coursename', WHERE Email='$email'"
 }
-
-
 mysqli_close($link);
 ?>
 
