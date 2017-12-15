@@ -1,5 +1,10 @@
 <h1>Hallo Admin!</h1>
 <?php
+
+if(isset($_GET['forwarded'])){
+    prompt("Die Kursdaten wurden aktualisiert!");
+}
+
 require "./includes/db.inc.php"; //anstelle von include, weil unbedingt erforderlich
 $linecolor = false;
 

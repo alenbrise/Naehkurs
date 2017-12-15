@@ -1,7 +1,6 @@
 
         <h1> Kursübersicht</h1>
         <?php
-        require "./includes/db.inc.php"; //anstelle von include, weil unbedingt erforderlich
         $linecolor = false;
         
         @$sortieren=$_GET['sortieren'];

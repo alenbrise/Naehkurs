@@ -6,8 +6,7 @@
     $pw = generatePassword();
     
     setPassword($email, $pw);
-   
-    
+       
     header("Location:index.php?page=login&forwarded=1");
     
 }

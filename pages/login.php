@@ -34,7 +34,7 @@ if (isset($_POST['txtEmail']) AND isset($_POST['txtPasswort'])) {
 <form method="post" action="index.php?page=login">
     <div class="form-group">
         <label for="txtEmail">Email:</label>
-        <input type="email" class="form-control" name="txtEmail" placeholder="E-Mail eingebgen">
+        <input type="email" class="form-control" name="txtEmail" placeholder="E-Mail eingeben">
     </div>
     <div class="form-group">
         <label for="txtPasswort">Passwort:</label>

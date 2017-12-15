@@ -15,9 +15,10 @@ $courseDetails = array();
 while ($zeile = mysqli_fetch_Assoc($res)) {
     while (list($key, $value) = each($zeile)) {
         $courseDetails[$key] = $value;
-        $courseID
     }
 }
+
+$courseID = $courseDetails['Kurs_ID'];
 
 if (isset($_POST['txtCoursename']) and ( $_POST['txtCoursetext']) and ( $_POST['txtCourseplace'])and ( $_POST['txtCoursedate']) and ( $_POST['txtPrice']) and ( $_POST['txtMax']) and ( $_POST['txtMin']) and ($_POST['txtTime'])) {
     $coursename = $_POST['txtCoursename'];
@@ -29,13 +30,17 @@ if (isset($_POST['txtCoursename']) and ( $_POST['txtCoursetext']) and ( $_POST['
     $min = $_POST['txtMin'];
     $time = $_POST['txtTime'];
     
-    $update = "UPDATE `kurs`SET kursname='$coursename', WHERE Email='$email'"
+    $update = "UPDATE `kurs`SET Kursname='$coursename', Kursbeschreibung='$coursetext', Kursort='$courseplace', Kursdatum='$coursedate', Preis='$price', Max_Plaetze='$max', Min_Plaetze='$min', Kurszeit='$time' WHERE Kurs_ID='$courseID'";
+    $res = mysqli_query($link, $update) or die("Eintrag nicht geklappt");
+    
+    header("Location:index.php?page=adminHome&forwarded=1");
+    
 }
 mysqli_close($link);
 ?>
 
 <h1>Kurs bearbeiten</h1>
-<form name ="editCourse" method="post" action="index.php?page=editCourse">
+<form name ="editCourse" method="post" action="index.php?page=editCourse&courseID=<?php echo $courseID ?>">
     <div class="form-group">
         <label for="txtCoursename">Kursname</label>
         <input type="text" class="form-control" name="txtCoursename" value="<?php echo $courseDetails["Kursname"]?>">
