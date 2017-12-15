@@ -28,15 +28,15 @@ function route(){
         $page .= 'startpage.php';
     } else {
         if (isLoggedAsAdmin()){
-            routeToAdmin();
-            return;
+            return routeToAdmin();
         }
         $page .= $_GET['page'] . '.php';
     }
+    return $page;
 }
 
 function routeToAdmin(){
-    $page = "./pages/admin/".$_GET['page'] . '.php';
+    return "./pages/admin/".$_GET['page'] . '.php';
 
 }
 
