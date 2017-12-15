@@ -6,7 +6,7 @@ if (isset($_POST['txtEmail']) AND isset($_POST['txtPasswort'])) {
 
     // Datenbankverbindung
     include "./includes/db.inc.php";
-    include "./includes/functions.php";
+    include_once "./includes/functions.php";
 
     $link = mysqli_connect($servername, $benutzer, $passwort, $dbname) or die("Keine Verbindung zur Datenbank!");
     mysqli_select_db($link, $dbname) or die("Datenbank nicht gefunden!");
@@ -42,7 +42,7 @@ if (isset($_POST['txtEmail']) AND isset($_POST['txtPasswort'])) {
 
     <div class="form-group">
         <a href="index.php?page=registration">Registrierung</a><br>
-        <a href="index.php?page=passwortVergessen">Passwort vergessen</a>
+        <a href="index.php?page=passwordForgot">Passwort vergessen</a>
     </div>
 </form>
 

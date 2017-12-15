@@ -1,3 +1,3 @@
 <?php
-    $APIkey = "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";
-    ?>
+    $APIkey = "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";
+ ?>

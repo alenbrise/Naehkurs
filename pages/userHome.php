@@ -12,6 +12,8 @@
         $link = mysqli_connect("localhost",$benutzer,$passwort) or die("Keine Verbindung zum Localhost möglich.");
         mysqli_select_db($link, $dbname) or die("DB nicht gefunden");
         
+        mysqli_query($link, "SET NAMES 'utf8'");
+        
         $abfrage="SELECT Kurs_ID, Kursname, Kursbeschreibung, Kursdatum FROM `kurs` WHERE Kursdatum >= Curdate()ORDER BY $sortieren";
         
         $res = mysqli_query($link, $abfrage) or die("Abfrage nicht geklappt");
