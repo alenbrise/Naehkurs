@@ -3,8 +3,8 @@ $courseID = $_GET['courseID'];
 
 require "./includes/db.inc.php";
 
-$link = mysqli_connect("localhost", $benutzer, $passwort) or die("Keine Verbindung zum Localhost möglich.");
-mysqli_select_db($link, $dbname) or die("DB nicht gefunden");
+$link =  getDbConnection();
+mysqli_query($link, "SET NAMES 'utf8'");
 
 $abfrage = "SELECT Kurs_ID, Kursname, Kursbeschreibung, Kursdatum, Kursort, Kursstatus, Preis, Max_Plaetze, Min_Plaetze, Freie_Plaetze, Kurszeit FROM `kurs` WHERE $courseID = Kurs_ID";
 

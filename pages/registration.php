@@ -1,5 +1,4 @@
 <?php
-include "./includes/dbfunctions.php";
   
 if (isset($_POST['gender']) and ( $_POST['txtFirstname']) and ( $_POST['txtNachname']) and ( $_POST['txtAddresse']) and ( $_POST['txtZipCode']) and ( $_POST['txtCity']) and ( $_POST['txtEmail']) and ( $_POST['txtPassword'])) {
     $gender = $_POST['gender'];

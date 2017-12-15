@@ -1,7 +1,5 @@
 <?php
 
-include "./includes/dbfunctions.php";
-
 if (isset($_POST['txtCoursename']) and ( $_POST['txtCoursetext']) and ( $_POST['txtCourseplace'])and ( $_POST['txtCoursedate']) and ( $_POST['txtPrice']) and ( $_POST['txtMax']) and ( $_POST['txtMin']) and ($_POST['txtTime'])) {
     $coursename = $_POST['txtCoursename'];
     $coursetext = $_POST['txtCoursetext'];

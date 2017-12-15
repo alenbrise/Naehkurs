@@ -1,11 +1,11 @@
 <?php 
 require "./includes/db.inc.php";
-$link = mysqli_connect("localhost", $benutzer, $passwort) or die("Keine Verbindung zum Localhost möglich.");
-mysqli_select_db($link, $dbname) or die("DB nicht gefunden");
+$link =  getDbConnection();
 
 $abfrage = "SELECT Kurs_ID, Kursname, Kursbeschreibung, Kursdatum FROM `kurs` WHERE Kursdatum >= Curdate()";
 
 $res = mysqli_query($link, $abfrage) or die("Abfrage nicht geklappt");
+mysqli_query($link, "SET NAMES 'utf8'");
 
 $courseDetails = array();
 while ($zeile = mysqli_fetch_Assoc($res)) {

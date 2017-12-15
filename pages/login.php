@@ -5,11 +5,9 @@ if (isset($_POST['txtEmail']) AND isset($_POST['txtPasswort'])) {
     $pass = md5($pass);
 
     // Datenbankverbindung
-    include "./includes/db.inc.php";
-    include_once "./includes/functions.php";
+   
 
-    $link = mysqli_connect($servername, $benutzer, $passwort, $dbname) or die("Keine Verbindung zur Datenbank!");
-    mysqli_select_db($link, $dbname) or die("Datenbank nicht gefunden!");
+    $link = getDbConnection();
 
     // prüfen ob es user und passwort gibt
     $abfrage = "SELECT Email, Passwort FROM `benutzer` WHERE Email='$email' and Passwort='$pass'";
@@ -23,7 +21,7 @@ if (isset($_POST['txtEmail']) AND isset($_POST['txtPasswort'])) {
             header("Location:index.php?page=userHome");
         }
     } else {
-        alert("Login hat nicht geklappt. \\nVersuchen Sie es erneut!");
+        prompt("Login hat nicht geklappt. \\nVersuchen Sie es erneut!");
     }
 }
 ?>

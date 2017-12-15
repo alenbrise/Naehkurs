@@ -1,4 +1,9 @@
 <?php
+
+include "./includes/config.inc.php";
+include "./includes/dbfunctions.php";
+include "./includes/functions.php";
+
 $page = "./pages/";
 if (!isset($_GET['page']) || $_GET['page']=='') {
     $page .= 'startpage.php';

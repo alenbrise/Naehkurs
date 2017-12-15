@@ -5,11 +5,11 @@
 require "./includes/db.inc.php";
 $courseID = $_GET['courseID'];
 
-$link = mysqli_connect("localhost", $benutzer, $passwort) or die("Keine Verbindung zum Localhost möglich.");
-mysqli_select_db($link, $dbname) or die("DB nicht gefunden");
+$link =  getDbConnection();
 
 $abfrage = "SELECT Kurs_ID, Kursname, Kursbeschreibung, Kursdatum, Kursort, Kursstatus, Preis, Max_Plaetze, Min_Plaetze, Freie_Plaetze, Kurszeit FROM `kurs` WHERE Kurs_ID = $courseID";
 $res = mysqli_query($link, $abfrage) or die("Abfrage nicht geklappt");
+mysqli_query($link, "SET NAMES 'utf8'");
 
 $courseDetails = array();
 while ($zeile = mysqli_fetch_Assoc($res)) {
@@ -17,6 +17,20 @@ while ($zeile = mysqli_fetch_Assoc($res)) {
         $courseDetails[$key] = $value;
     }
 }
+
+if (isset($_POST['txtCoursename']) and ( $_POST['txtCoursetext']) and ( $_POST['txtCourseplace'])and ( $_POST['txtCoursedate']) and ( $_POST['txtPrice']) and ( $_POST['txtMax']) and ( $_POST['txtMin']) and ($_POST['txtTime'])) {
+    $coursename = $_POST['txtCoursename'];
+    $coursetext = $_POST['txtCoursetext'];
+    $courseplace = $_POST['txtCourseplace'];
+    $coursedate = $_POST['txtCoursedate'];
+    $price = $_POST['txtPrice'];
+    $max = $_POST['txtMax'];
+    $min = $_POST['txtMin'];
+    $time = $_POST['txtTime'];
+}
+
+
+
 ?>
 
 <h1>Kurs bearbeiten</h1>

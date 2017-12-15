@@ -1,6 +1,5 @@
+
 <?php
-    include "./includes/dbfunctions.php";
-    
     if (isset($_POST['txtEmail'])) {
     $email = $_POST['txtEmail'];
 
