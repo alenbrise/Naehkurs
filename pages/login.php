@@ -23,6 +23,7 @@ if (isset($_POST['txtEmail']) AND isset($_POST['txtPasswort'])) {
     } else {
         prompt("Login hat nicht geklappt. \\nVersuchen Sie es erneut!");
     }
+    mysqli_close($link);
 }
 ?>
 <h1>Login</h1>

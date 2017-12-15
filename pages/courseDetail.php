@@ -4,7 +4,6 @@ $courseID = $_GET['courseID'];
 require "./includes/db.inc.php";
 
 $link =  getDbConnection();
-mysqli_query($link, "SET NAMES 'utf8'");
 
 $abfrage = "SELECT Kurs_ID, Kursname, Kursbeschreibung, Kursdatum, Kursort, Kursstatus, Preis, Max_Plaetze, Min_Plaetze, Freie_Plaetze, Kurszeit FROM `kurs` WHERE $courseID = Kurs_ID";
 
@@ -16,6 +15,7 @@ while ($zeile = mysqli_fetch_Assoc($res)) {
         $courseDetails[$key] = $value;
     }
 }
+mysqli_close($link);
 ?>
 
 <h1><?php echo $courseDetails["Kursname"]; ?></h1>

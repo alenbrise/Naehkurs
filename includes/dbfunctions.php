@@ -1,19 +1,16 @@
 <?php
 
-
-
-
 function getDbConnection(){
     include "./includes/db.inc.php";
     $link = mysqli_connect($servername, $benutzer, $passwort, $dbname) or die("Keine Verbindung zur Datenbank");
     mysqli_select_db($link, $dbname) or die("Datenbank nicht gefunden!");
+    mysqli_query($link, "SET NAMES 'utf8'");
     return $link;
 }
 
 //reset Password for given E-Mail-Address
 function setPassword($email, $password) {    
     $link = getDbConnection();
-    // Create connection
     
     // prüfen ob email bereits vorhanden
     $abfrage = "SELECT email,Nachname,Vorname FROM `benutzer` WHERE Email='$email'";
@@ -40,6 +37,7 @@ function setPassword($email, $password) {
         prompt("Diese E-Mail-Adresse existiert nicht!");
        
     }
+    mysqli_close($link);
 }
 
 function createUser() {
@@ -59,8 +57,6 @@ function createUser() {
         // Create connection
         $link = getDbConnection();
 
-        mysqli_query($link, "SET NAMES 'utf8'");
-
         // prüfen ob email bereits vorhanden
         $abfrage = "SELECT email FROM `benutzer` WHERE Email='$email'";
         $ergebnis = mysqli_query($link, $abfrage) or die("Abfrage hat nicht geklappt!");
@@ -72,7 +68,7 @@ function createUser() {
             // Benutzer erfassen, weil noch nicht in DB vorhanden
             $insert = "INSERT INTO benutzer (`Benutzer_ID`, `Email`, `Passwort`, `Anrede`, `Vorname`, `Nachname`, `Adresse`, `PLZ`, `Ort`) VALUES('', '$email', '$pass', '$gender', '$firstname', '$lastname', '$address', '$zipcode', '$city')";
             mysqli_query($link, $insert)or die("DB-Eintrag hat nicht geklappt!");
-            echo "<font>Daten wurden erfasst!!</font><br/>";
+            prompt("Daten wurden erfasst!");
         }
 
         // Datenbankverbindung beenden
@@ -85,9 +81,7 @@ function createCourse($coursename, $coursetext, $courseplace, $coursedate, $pric
     // Create connection
     $link = getDbConnection();  
 
-    mysqli_query($link, "SET NAMES 'utf8'");
-
-    $insert = "INSERT INTO kurs (`Kurs_ID`, `Kursname`, `Kursbeschreibung`, `Kursort`, `Kursdatum`, `Kursstatus`, `Preis`, `Max_Plaetze`, `Min_Plaetze`, `Freie_Plaetze`) VALUES('', '$coursename', '$coursetext', '$courseplace', '$coursedate', '', '$price', '$max', '$min', '$max')";
+    $insert = "INSERT INTO kurs (`Kurs_ID`, `Kursname`, `Kursbeschreibung`, `Kursort`, `Kursdatum`, `Kursstatus`, `Preis`, `Max_Plaetze`, `Min_Plaetze`, `Freie_Plaetze`) VALUES('', '$coursename', '$coursetext', '$courseplace', '$coursedate', 'offen', '$price', '$max', '$min', '$max')";
     mysqli_query($link, $insert)or die("DB-Eintrag hat nicht geklappt!");
     prompt("Daten wurden erfasst!");
 

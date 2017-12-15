@@ -9,7 +9,6 @@ $link =  getDbConnection();
 
 $abfrage = "SELECT Kurs_ID, Kursname, Kursbeschreibung, Kursdatum, Kursort, Kursstatus, Preis, Max_Plaetze, Min_Plaetze, Freie_Plaetze, Kurszeit FROM `kurs` WHERE Kurs_ID = $courseID";
 $res = mysqli_query($link, $abfrage) or die("Abfrage nicht geklappt");
-mysqli_query($link, "SET NAMES 'utf8'");
 
 $courseDetails = array();
 while ($zeile = mysqli_fetch_Assoc($res)) {
@@ -30,7 +29,7 @@ if (isset($_POST['txtCoursename']) and ( $_POST['txtCoursetext']) and ( $_POST['
 }
 
 
-
+mysqli_close($link);
 ?>
 
 <h1>Kurs bearbeiten</h1>

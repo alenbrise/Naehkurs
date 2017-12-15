@@ -9,12 +9,8 @@
             $sortieren="Kursdatum";
         }
         
-        $link = getDbConnection();
-        
-        mysqli_query($link, "SET NAMES 'utf8'");
-        
-        $abfrage="SELECT Kurs_ID, Kursname, Kursbeschreibung, Kursdatum FROM `kurs` WHERE Kursdatum >= Curdate()ORDER BY $sortieren";
-        
+        $link = getDbConnection();        
+        $abfrage="SELECT Kurs_ID, Kursname, Kursbeschreibung, Kursdatum FROM `kurs` WHERE Kursdatum >= Curdate()ORDER BY $sortieren";        
         $res = mysqli_query($link, $abfrage) or die("Abfrage nicht geklappt");
         
         //Tabellenüberschrift erstellen (automatisch)

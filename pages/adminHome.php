@@ -9,7 +9,6 @@ if (!isset($sortieren)) {
 }
 
 $link =  getDbConnection();
-mysqli_query($link, "SET NAMES 'utf8'");
 
 $abfrage = "SELECT Kurs_ID, Kursname, Kursbeschreibung, Kursdatum FROM `kurs` WHERE Kursdatum >= Curdate()ORDER BY $sortieren";
 
@@ -54,3 +53,4 @@ while ($zeile = mysqli_fetch_Assoc($res)) {
 echo "</table>";
 mysqli_close($link);
 
+?>
