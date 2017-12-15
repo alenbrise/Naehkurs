@@ -5,7 +5,6 @@ include "./includes/config.inc.php";
 include "./includes/dbfunctions.php";
 include "./includes/functions.php";
 
-route();
 
 ?>
 
@@ -20,7 +19,7 @@ route();
     <div class="row">
         <div class="col col-lg-9">
             <?php
-            include $page;
+            include route();
             ?>
         </div>
         <div class="col col-lg-3">
