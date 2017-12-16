@@ -17,7 +17,7 @@
                         <a class="dropdown-toggle" data-toggle="dropdown" href="#">Menü <span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li><a href="index.php?page=createNewCourse">Kurs erstellen</a></li>
-                            <li><a href="index.php?page=adminHome">Abrechnung ausgeben</a></li>
+                            <li><a href="index.php?page=revenue">Abrechnung ausgeben</a></li>
                             <li><a href="index.php?page=adminHome">Rechnung aufrufen</a></li>
                             <li><a href="index.php?page=users">Benutzerübersicht</a></li>
                         </ul>
