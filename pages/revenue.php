@@ -102,7 +102,7 @@ if (isset($_POST['txtStartdate']) and ( $_POST['txtEnddate'])) {
         }
         foreach($courseIDs as $key=>$value){
             if($revenue["Kurs_ID"]==$value){
-                echo "<td>$$courseIDs[$count]</td>";
+                echo "<td>$$courseIDs[$count]*</td>";
             }
         }
        
