@@ -8,7 +8,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>                        
                 </button>
-                <div class="navbar-brand" >Kursübersicht</div>
+                <div class="navbar-brand" >Benutzerübersicht</div>
             </div>
             <div class="collapse navbar-collapse" id="myNavbar">
                 <ul class="nav navbar-nav">
@@ -30,23 +30,20 @@
         </div>
     </nav>
 </body>
-
 <?php
 if (isset($_GET['forwarded'])) {
     if ($_GET['forwarded'] == 1) {
-        prompt("Die Kursdaten wurden aktualisiert!");
+        prompt("Die Benutzerdaten wurden aktualisiert!");
     }
 }
 $linecolor = false;
 
 @$sortieren = $_GET['sortieren'];
 if (!isset($sortieren)) {
-    $sortieren = "Kursdatum";
-
-
+    $sortieren = "Nachname";
     $link = getDbConnection();
 
-    $abfrage = "SELECT Kurs_ID, Kursname, Kursbeschreibung, Kursdatum FROM `kurs` WHERE Kursdatum >= Curdate()ORDER BY $sortieren";
+    $abfrage = "SELECT Benutzer_ID, Vorname, Nachname, Ort, Email FROM `benutzer` ORDER BY $sortieren";
 
     $res = mysqli_query($link, $abfrage) or die("Abfrage nicht geklappt");
 
@@ -55,15 +52,15 @@ if (!isset($sortieren)) {
 
 //wir stellen den tabellentitel als sortierlink dar
     echo "<tr bgcolor='#DCDCDC'>";
-    echo "<th>Kursnummer</th>";
-    echo "<th>Kursname</th>";
-    echo "<th>Kursbeschreibung</th>";
-    echo "<th>Kursdatum</th>";
+    echo "<th>Benutzer ID</th>";
+    echo "<th>Vorname</th>";
+    echo "<th>Nachname</th>";
+    echo "<th>Ort</th>";
+    echo "<th>E-Mail</th>";
     echo "</th>";
     echo "</tr>";
+    
 //Tabelleninhalt auflisten
-
-
     while ($zeile = mysqli_fetch_Assoc($res)) {
         if ($linecolor == true) {
             echo"<tr bgcolor='#DCDCDC'>";
@@ -75,21 +72,15 @@ if (!isset($sortieren)) {
 
         while (list ($key, $value) = each($zeile)) {
             echo "<td>" . $value . "</td>"; //könnte auch den $key ausgeben
-            if ($key == "Kurs_ID") {
+            if ($key == "Benutzer_ID") {
                 $row = $value;
             }
         }
-        echo "<td><a href=index.php?page=courseMembers&courseID=$row>Teilnehmerliste</a>\n"
-        . "<a href=index.php?page=editCourse&courseID=$row>Kurs bearbeiten</a></td>";
-
-
+        echo "<td><a href=index.php?page=editUser&userID=$row>bearbeiten</a>";
         echo"</tr>";
     }
 
     echo "</table>";
     mysqli_close($link);
-} else {
-    header("Location:index.php?page=login&forwarded=2");
 }
 ?>
-
