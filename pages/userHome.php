@@ -1,11 +1,36 @@
 <?php checkForAuthorization(false) ?>
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+      <div class="navbar-brand" >Kursübersicht</div>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="index.php?page=userHome">Home</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="index.php?page=logout"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
 
-<h1> Kursübersicht</h1>
 <?php
 
 if (isset($_GET['forwarded'])) {
     if ($_GET['forwarded'] == 1) {
         prompt("Sie haben sich erfolgreich für den Kurs angemeldet!");
+    }else if($_GET['forwarded'] == 2){
+        prompt("Sie sind bereits für diesen Kurs eingetragen!");
+    }else if($_GET['forwarded'] == 3){
+        prompt("Dieser Kurs ist bereits ausgebucht!");
+    }else if($_GET['forwarded'] == 4){
+        prompt("Ihre Daten wurden erfasst!");
     }
 }
 $linecolor = false;

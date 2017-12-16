@@ -1,4 +1,20 @@
-
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+      <div class="navbar-brand" >Passwort zurücksetzen</div>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="index.php?page=startPage">Home</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
 <?php
     if (isset($_POST['txtEmail'])) {
     $email = $_POST['txtEmail'];

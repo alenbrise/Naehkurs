@@ -1,3 +1,20 @@
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+      <div class="navbar-brand" >Registrierung</div>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="index.php?page=startPage">Home</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
 <?php
   
 if (isset($_POST['gender']) and ( $_POST['txtFirstname']) and ( $_POST['txtNachname']) and ( $_POST['txtAddresse']) and ( $_POST['txtZipCode']) and ( $_POST['txtCity']) and ( $_POST['txtEmail']) and ( $_POST['txtPassword'])) {
@@ -25,9 +42,6 @@ if (isset($_POST['gender']) and ( $_POST['txtFirstname']) and ( $_POST['txtNachn
       } */
 
 ?>
-
-<h1>Registrierung</h1>
-
 
 <form name ="registration" method="post" onsubmit="onSumbit()" action="index.php?page=registration">
     <div class="form-group">

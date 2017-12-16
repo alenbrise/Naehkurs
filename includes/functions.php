@@ -70,7 +70,7 @@ $count = mb_strlen($chars);
 }
 
 //sends Bill to customer after sign up for course
-function sendBill($receiver, $name, $billID) {
+function sendBill($receiver, $name, $billID, $courseID) {
     $jsonData = '{
   "personalizations": [
     {

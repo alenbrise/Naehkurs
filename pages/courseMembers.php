@@ -1,5 +1,34 @@
-<?php 
-checkForAuthorization(true);
+<?php checkForAuthorization(true);?>
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+      <div class="navbar-brand" >Teilnehmerliste</div>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="index.php?page=adminHome">Home</a></li>
+        <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#">Menü <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="index.php?page=createNewCourse">Kurs erstellen</a></li>
+            <li><a href="index.php?page=adminHome">Abrechnung ausgeben</a></li>
+            <li><a href="index.php?page=adminHome">Rechnung aufrufen</a></li>
+          </ul>
+        </li> 
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="index.php?page=logout"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<?php
 
 $courseID = $_GET['courseID'];
 $link =  getDbConnection();
@@ -23,7 +52,7 @@ $abfrage = "SELECT Vorname, Nachname, Email, Anmeldestatus, Rechnung_ID FROM `be
 
 $res = mysqli_query($link, $abfrage) or die("Abfrage nicht geklappt");
 
-echo "<h1>Teilnehmerliste zum Kurs ".$coursename."</h1>";
+echo "<h1>$coursename</h1>";
 //Tabellenüberschrift erstellen (automatisch)
 echo "<table border='0'>";
 
@@ -53,11 +82,7 @@ while ($zeile = mysqli_fetch_Assoc($res)) {
             $row = $value;
         }
     }
-    /*echo "<td><a href=index.php?page=courseMembers&courseID=$row>Teilnehmerliste</a>\n"
-    . "<a href=index.php?page=editCourse&courseID=$row>Kurs bearbeiten</a></td>";*/
-
-
-    echo"</tr>";
+     echo"</tr>";
 }
 
 echo "</table>";
