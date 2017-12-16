@@ -2,6 +2,12 @@
 
 <h1> Kursübersicht</h1>
 <?php
+
+if (isset($_GET['forwarded'])) {
+    if ($_GET['forwarded'] == 1) {
+        prompt("Sie haben sich erfolgreich für den Kurs angemeldet!");
+    }
+}
 $linecolor = false;
 
 @$sortieren=$_GET['sortieren'];

@@ -101,4 +101,25 @@ function createCourse($coursename, $coursetext, $courseplace, $coursedate, $pric
     // Datenbankverbindung beenden
     mysqli_close($link);
 }
+
+function createNewEnrolment($courseID, $userID){
+    $link = getDbConnection();  
+    $insert = "INSERT INTO kursanmeldung (`Rechnung_ID`, `Benutzer_ID`, `Kurs_ID`, `Anmeldestatus`) VALUES('', '$userID', '$courseID', 'provisorisch')";
+    mysqli_query($link, $insert)or die("DB-Eintrag hat nicht geklappt!");
+    header("Location:index.php?page=userHome&forwarded=1");
+    mysqli_close($link);
+}
+
+function getUserIDFromMail($email){
+    $link = getDbConnection(); 
+    $abfrage = "SELECT Benutzer_ID FROM `benutzer` WHERE Email='$email'";
+    $res = mysqli_query($link, $abfrage)or die("DB-Eintrag hat nicht geklappt!");
+    
+    while ($row = mysqli_fetch_Assoc($res)) {        
+        $userID = $row["Benutzer_ID"];
+    }
+    return $userID;
+    
+    mysqli_close($link);
+}
 ?>
