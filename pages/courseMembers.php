@@ -32,6 +32,10 @@
 </body>
 
 <?php
+if(isset($_GET["userDeleted"])){
+    echo "<div class='alert alert-success' role='alert'>Der Benutzer konnte erfolgreich gelöscht werden</div>";
+}
+
 $courseID = $_GET['courseID'];
 $link = getDbConnection();
 $linecolor = false;
@@ -54,6 +58,7 @@ $abfrage = "SELECT Vorname, Nachname, Email, Anmeldestatus, Rechnung_ID FROM `be
 
 $res = mysqli_query($link, $abfrage) or die("Abfrage nicht geklappt");
 
+
 echo "<h1>$coursename</h1>";
 //Tabellenüberschrift erstellen (automatisch)
 echo "<table class='table table-dark' border='0'>";
@@ -65,7 +70,8 @@ echo "<th scope='col'>Nachname</th>";
 echo "<th scope='col'>E-Mail</th>";
 echo "<th scope='col'>Anmeldestatus</th>";
 echo "<th scope='col'>Rechnungsnr.</th>";
-echo "<th scope='col'></th>";
+echo "<th scope='col'>&nbsp;</th>";
+echo "<th scope='col'>&nbsp;</th>";
 echo "</tr>";
 
 //Tabelleninhalt auflisten
@@ -86,7 +92,8 @@ while ($zeile = mysqli_fetch_Assoc($res)) {
             $bookingID = $value;
         }
     }
-    echo "<td><a href=index.php?page=editBooking&bookingID=$bookingID>Anmeldung bearbeiten</a></td>";
+    echo "<td><a class='btn btn-default' href=index.php?page=editBooking&bookingID=$bookingID>Anmeldung bearbeiten</a></td>";
+    echo "<td><a class='btn btn-default' href=index.php?page=editBooking&deleteRegistration=1&bookingID=$bookingID>Anmeldung löschen</a></td>";
     echo"</tr>";
 }
 

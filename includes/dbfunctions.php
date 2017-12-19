@@ -168,4 +168,72 @@ function getBillID($userID, $courseID){
     mysqli_close($link);
 }
 
+function getBookingByBookingId($bookingId){
+    $abfrage = "SELECT * FROM `kursanmeldung` WHERE Rechnung_ID = $bookingId";
+    $res = mysqli_query(getDbConnection(), $abfrage) or die("Abfrage nicht geklappt");
+    $bookingDetails = array();
+    
+    //form fields are filled with current values
+    while ($zeile = mysqli_fetch_Assoc($res)) {
+        while (list($key, $value) = each($zeile)) {
+            $bookingDetails[$key] = $value;
+        }
+    }
+    return $bookingDetails;
+}
+
+function updateParticipantStatus($userId, $courseId, $status){
+    $status = $_POST['Anmeldestatus'];
+    $update = "UPDATE `kursanmeldung`SET Anmeldestatus='$status' WHERE Benutzer_ID='$userId' AND Kurs_ID='$courseId'";
+    mysqli_query(getDbConnection(), $update) or die("Eintrag nicht geklappt");
+}
+
+function getUsernameByBookingId($bookingId){
+
+    $booking = getBookingByBookingId($bookingId);
+    $course = getCourseNameByBookingId($bookingId); 
+    
+    $abfrage = "SELECT Vorname, Nachname FROM `benutzer` WHERE Benutzer_ID =" . $booking["Benutzer_ID"];
+    $res = mysqli_query(getDbConnection(), $abfrage) or die("Abfrage nicht geklappt");
+    $username = "";
+    //form fields are filled with current values
+    while ($zeile = mysqli_fetch_Assoc($res)) {
+        $username = $zeile['Vorname'] . ' ' . $zeile['Nachname'];
+        /*while (list($key, $value) = each($zeile)) {
+            if ($key == "Vorname") {
+                $userName = $value;
+            } else if ($key == "Nachname") {
+                $userName = $userName . " " . $value;
+            }
+        }*/
+    }
+    return $username;
+    
+    
+}
+
+function getCourseNameByBookingId($bookingId){
+    
+    $booking = getBookingByBookingId($bookingId);    
+    $abfrage = "SELECT Kursname FROM `kurs` WHERE Kurs_ID = " . $booking["Kurs_ID"];
+    $res = mysqli_query(getDbConnection(), $abfrage) or die("Abfrage nicht geklappt");
+    $courseName = "";
+    //form fields are filled with current values
+    while ($zeile = mysqli_fetch_Assoc($res)) {
+        while (list($key, $value) = each($zeile)) {
+            $courseName = $value;
+        }
+    }
+    return $courseName;
+}
+
+function deleteUserRegistrationByBookingId($bookingId){
+    $booking = getBookingByBookingId($bookingId);
+    $userId = $booking['Benutzer_ID'];
+    $courseId = $booking['Kurs_ID'];
+    $query = "DELETE FROM `kursanmeldung` WHERE Kurs_ID='$courseId' AND Benutzer_ID='$userId'";
+    echo $query;
+    mysqli_query(getDbConnection(), $query);
+}
+
 ?>

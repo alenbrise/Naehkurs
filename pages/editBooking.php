@@ -1,4 +1,33 @@
-<?php checkForAuthorization(true); ?>
+<?php 
+
+checkForAuthorization(true);
+
+if(!isset($_GET['bookingID']) || $_GET['bookingID']==""){
+    header('Location:index.php?page=adminHome');
+}
+
+$booking = getBookingByBookingId($_GET['bookingID']);
+
+if(isset($_GET['deleteRegistration']) && isset($_GET['bookingID'])){    
+    deleteUserRegistrationByBookingId($_GET['bookingID']);
+    header("Location:index.php?page=courseMembers&userDeleted=1&courseID=".$booking['Kurs_ID']);
+}else if(isset($_GET['bookingID'])){
+    $username = getUsernameByBookingId($_GET['bookingID']);
+    $courseName = getCourseNameByBookingId($_GET['bookingID']);      
+    $userID = $booking["Benutzer_ID"];
+    $courseID = $booking["Kurs_ID"];
+
+    if(isset ($_POST['Anmeldestatus'])){
+        updateParticipantStatus($userID, $courseID, $_POST['Anmeldestatus']);
+        header("Location:index.php?page=courseMembers&courseID=".$courseID);
+    }
+    
+    $provisorischChecked = ($booking["Anmeldestatus"] == "provisorisch") ? "checked=checked" : "";
+    $definitvChecked = ($booking["Anmeldestatus"] == "definitiv") ? "checked=checked" : "";
+}
+
+
+?>
 <body>
     <nav class="navbar navbar-inverse">
         <div class="container-fluid">
@@ -31,69 +60,18 @@
     </nav>
 </body>
 <?php
-$bookingID = $_GET['bookingID'];
-$link = getDbConnection();
-
-$abfrage = "SELECT * FROM `kursanmeldung` WHERE Rechnung_ID = $bookingID";
-$res = mysqli_query($link, $abfrage) or die("Abfrage nicht geklappt");
-
-//form fields are filled with current values
-$bookingDetails = array();
-while ($zeile = mysqli_fetch_Assoc($res)) {
-    while (list($key, $value) = each($zeile)) {
-        $bookingDetails[$key] = $value;
-    }
-}
-
-$abfrage = "SELECT Kursname FROM `kurs` WHERE Kurs_ID = " . $bookingDetails["Kurs_ID"];
-$res = mysqli_query($link, $abfrage) or die("Abfrage nicht geklappt");
-
-//form fields are filled with current values
-while ($zeile = mysqli_fetch_Assoc($res)) {
-    while (list($key, $value) = each($zeile)) {
-        $courseName = $value;
-    }
-}
 
 
-$abfrage = "SELECT Vorname, Nachname FROM `benutzer` WHERE Benutzer_ID = " . $bookingDetails["Benutzer_ID"];
-$res = mysqli_query($link, $abfrage) or die("Abfrage nicht geklappt");
+echo "<h2> Kursanmeldung von " . $username . " zum Kurs " . $courseName . "</h2>";
 
-//form fields are filled with current values
-while ($zeile = mysqli_fetch_Assoc($res)) {
-    while (list($key, $value) = each($zeile)) {
-        if ($key == "Vorname") {
-            $userName = $value;
-        } else if ($key == "Nachname") {
-            $userName = $userName . " " . $value;
-        }
-    }
-}
-
-echo "<h2> Kursanmeldung von " . $userName . " zum Kurs " . $courseName . "</h2>";
-
-$userID = $bookingDetails["Benutzer_ID"];
-$courseID = $bookingDetails["Kurs_ID"];
-
-if(isset ($_POST['Anmeldestatus'])){
-    $status = $_POST['Anmeldestatus'];
-
-    $update = "UPDATE `kursanmeldung`SET Anmeldestatus='$status' WHERE Benutzer_ID='$userID' AND Kurs_ID='$courseID'";
-    $res = mysqli_query($link, $update) or die("Eintrag nicht geklappt");
-
-    header("Location:index.php?page=courseMembers&courseID=".$courseID);
-}
-
-mysqli_close($link);
 ?>
 <body>
-    <form name ="editBoking" method="post" action="index.php?page=editBooking&bookingID=<?php echo $bookingID ?>">
+    <form name ="editBoking" method="post" action="index.php?page=editBooking&bookingID=<?php echo $_GET['bookingID'] ?>">
         <fieldset>
-            <input type="radio" id="prov" name="Anmeldestatus" value="provisorisch" <?php if($bookingDetails["Anmeldestatus"] == "provisorisch" ){echo 'checked="checked"';}?>>
+            <input type="radio" id="prov" name="Anmeldestatus" value="provisorisch" <?php echo $provisorischChecked ?>>
             <label for="prov"> Provisorisch</label> 
-            <input type="radio" id="def" name="Anmeldestatus" value="definitiv" <?php if($bookingDetails["Anmeldestatus"] == "definitiv" ){echo 'checked="checked"';}?>>
+            <input type="radio" id="def" name="Anmeldestatus" value="definitiv" <?php echo $definitvChecked ?>>
             <label for="def"> Definitiv</label>
-            <button class="btn btn-default" type="submit">Änderungen speichern</button>
-            <button class="btn btn-default" type="submit">Anmeldung löschen</button>
+            <button class="btn btn-default" type="submit">Änderungen speichern</button>            
     </form>
 </body>
