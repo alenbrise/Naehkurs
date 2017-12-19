@@ -43,47 +43,53 @@ if (isset($_POST['txtStartdate']) and ( $_POST['txtEnddate'])) {
 
     $link = getDbConnection();
 
-    $abfrage = "SELECT Kurs_ID FROM `kurs` WHERE Kursdatum <=$endDate AND >= $startDate";
+    $abfrage = "SELECT Kurs_ID FROM `kurs` WHERE Kursdatum >= '".date($startDate)."' AND Kursdatum <= '".date($endDate)."'";
     $res = mysqli_query($link, $abfrage) or die("Verbindung zu Datenbank fehlgeschlagen");
     $courseIDs = array();
     while ($zeile = mysqli_fetch_Assoc($res)) {
         while (list($key, $value) = each($zeile)) {
-            $courseIDs[$key] = $value;
+            array_push($courseIDs, $value);
         }
     }
     
-    foreach($courseIDs as $value){
-        
-        $abfrage = "SELECT Kurs_ID, Kursname, Kursdatum, Preis FROM `kurs` JOIN `kursanmeldung` USING (Kurs_ID) WHERE Kursdatum >= $startDate AND <= $endDate AND Anmeldestatus='definitiv' AND Kurs_ID=$value ORDER BY $sortieren";
+    $numOfBookings = array();
+    array_fill_keys($courseIDs, null);
+
+    foreach ($courseIDs as $value) {
+        $abfrage = "SELECT Kurs_ID FROM `kursanmeldung` WHERE Anmeldestatus='definitiv' AND Kurs_ID=$value";
         $res = mysqli_query($link, $abfrage) or die("Abfrage nicht geklappt");
         $count = mysqli_num_rows($res);
-        $courseIDs["Buchungen"] = $count;
+        $numOfBookings[$value] = $count;
     }
     
-    
-    $abfrage = "SELECT Kurs_ID, Kursname, Kursdatum FROM `kurs` WHERE Kursdatum >= Curdate()ORDER BY $sortieren";
+    foreach ($numOfBookings as $courseID => $count) {
+        $abfrage = "SELECT Preis FROM `kurs` WHERE Kurs_ID = $courseID";
+        $res = mysqli_query($link, $abfrage) or die("Abfrage nicht geklappt");
 
-    $res = mysqli_query($link, $abfrage) or die("Abfrage nicht geklappt");
-    
-    while ($zeile = mysqli_fetch_Assoc($res)) {
-        while (list($key, $value) = each($zeile)) {
-            $revenue[$key] = $value;
+        while ($zeile = mysqli_fetch_Assoc($res)) {
+            while (list ($key, $value) = each($zeile)) {
+                    $price = $value;
+            }
         }
-    } 
+        
+        $numOfBookings[$courseID] = $price * $count;
+    }
+
+
+    $abfrage = "SELECT Kurs_ID, Kursname, Kursdatum FROM `kurs` WHERE Kursdatum >= '".date($startDate)."' AND Kursdatum <= '".date($endDate)."'ORDER BY $sortieren";
+    $res = mysqli_query($link, $abfrage) or die("Verbindung zu Datenbank fehlgeschlagen");
 
 //Tabellenüberschrift erstellen (automatisch)
-    echo "<table border='0'>";
+    echo "<table class='table table-dark' border='0'>";
 
 //wir stellen den tabellentitel als sortierlink dar
     echo "<tr bgcolor='#DCDCDC'>";
-    echo "<th>Kursnummer</th>";
-    echo "<th>Kursname</th>";
-    echo "<th>Kursbeschreibung</th>";
-    echo "<th>Kursdatum</th>";
-    echo "</th>";
+    echo "<th scope='col'>Kursnummer</th>";
+    echo "<th scope='col'>Kursname</th>";
+    echo "<th scope='col'>Kursdatum</th>";
+    echo "<th scope='col'>Umsatz</th>";
     echo "</tr>";
 //Tabelleninhalt auflisten
-
 
     while ($zeile = mysqli_fetch_Assoc($res)) {
         if ($linecolor == true) {
@@ -97,16 +103,10 @@ if (isset($_POST['txtStartdate']) and ( $_POST['txtEnddate'])) {
         while (list ($key, $value) = each($zeile)) {
             echo "<td>" . $value . "</td>"; //könnte auch den $key ausgeben
             if ($key == "Kurs_ID") {
-                $row = $value;
+                $row = $value;  
             }
         }
-        foreach($courseIDs as $key=>$value){
-            if($revenue["Kurs_ID"]==$value){
-                echo "<td>$$courseIDs[$count]*</td>";
-            }
-        }
-       
-
+            echo "<td>CHF " . $numOfBookings [$row]. ".-</td>";
         echo"</tr>";
     }
 
