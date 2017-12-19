@@ -232,8 +232,19 @@ function deleteUserRegistrationByBookingId($bookingId){
     $userId = $booking['Benutzer_ID'];
     $courseId = $booking['Kurs_ID'];
     $query = "DELETE FROM `kursanmeldung` WHERE Kurs_ID='$courseId' AND Benutzer_ID='$userId'";
-    echo $query;
     mysqli_query(getDbConnection(), $query);
+}
+
+function getRevenueByCourse($startdate, $enddate){ 
+    $abfrage = "SELECT kurs.Kursname as kursname, kurs.Kurs_ID as kursnummer, kurs.Kursdatum as kursdatum, SUM(kurs.Preis) as umsatz FROM `kurs` left join `kursanmeldung` ON kurs.Kurs_ID=kursanmeldung.Kurs_ID WHERE Kursdatum >= '".date($startdate)."' AND Kursdatum <= '".date($enddate)."' AND kursanmeldung.Anmeldestatus='definitiv' GROUP by kurs.Kurs_ID ORDER BY kurs.Kursdatum";
+    $res = mysqli_query(getDbConnection(), $abfrage) or die("Abfrage nicht geklappt");
+    $courseRevenues = array();
+    //form fields are filled with current values
+    while ($zeile = mysqli_fetch_Assoc($res)) {
+        $courseRevenues[] = $zeile;
+
+    }    
+    return $courseRevenues;
 }
 
 ?>
