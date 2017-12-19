@@ -56,16 +56,16 @@ $res = mysqli_query($link, $abfrage) or die("Abfrage nicht geklappt");
 
 echo "<h1>$coursename</h1>";
 //Tabellenüberschrift erstellen (automatisch)
-echo "<table border='0'>";
+echo "<table class='table table-dark' border='0'>";
 
 //wir stellen den tabellentitel als sortierlink dar
 echo "<tr bgcolor='#DCDCDC'>";
-echo "<th>Vorname</th>";
-echo "<th>Nachname</th>";
-echo "<th>E-Mail</th>";
-echo "<th>Anmeldestatus</th>";
-echo "<th>Rechnungsnr.</th>";
-echo "</th>";
+echo "<th scope='col'>Vorname</th>";
+echo "<th scope='col'>Nachname</th>";
+echo "<th scope='col'>E-Mail</th>";
+echo "<th scope='col'>Anmeldestatus</th>";
+echo "<th scope='col'>Rechnungsnr.</th>";
+echo "<th scope='col'></th>";
 echo "</tr>";
 
 //Tabelleninhalt auflisten
@@ -82,8 +82,11 @@ while ($zeile = mysqli_fetch_Assoc($res)) {
         echo "<td>" . $value . "</td>"; //könnte auch den $key ausgeben
         if ($key == "Benutzer_ID") {
             $row = $value;
+        }else if($key == "Rechnung_ID"){
+            $bookingID = $value;
         }
     }
+    echo "<td><a href=index.php?page=editBooking&bookingID=$bookingID>Anmeldung bearbeiten</a></td>";
     echo"</tr>";
 }
 

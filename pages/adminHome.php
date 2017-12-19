@@ -51,15 +51,15 @@ if (!isset($sortieren)) {
     $res = mysqli_query($link, $abfrage) or die("Abfrage nicht geklappt");
 
 //Tabellenüberschrift erstellen (automatisch)
-    echo "<table border='0'>";
+    echo "<table class='table table-dark' border='0'>";
 
 //wir stellen den tabellentitel als sortierlink dar
     echo "<tr bgcolor='#DCDCDC'>";
-    echo "<th>Kursnummer</th>";
-    echo "<th>Kursname</th>";
-    echo "<th>Kursbeschreibung</th>";
-    echo "<th>Kursdatum</th>";
-    echo "</th>";
+    echo "<th scope='col'>Kursnummer</th>";
+    echo "<th scope='col'>Kursname</th>";
+    echo "<th scope='col'>Kursbeschreibung</th>";
+    echo "<th scope='col'>Kursdatum</th>";
+    echo "<th scope='col'></th>";
     echo "</tr>";
 //Tabelleninhalt auflisten
 

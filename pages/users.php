@@ -48,16 +48,16 @@ if (!isset($sortieren)) {
     $res = mysqli_query($link, $abfrage) or die("Abfrage nicht geklappt");
 
 //Tabellenüberschrift erstellen (automatisch)
-    echo "<table border='0'>";
+    echo "<table class='table table-dark' border='0'>";
 
 //wir stellen den tabellentitel als sortierlink dar
     echo "<tr bgcolor='#DCDCDC'>";
-    echo "<th>Benutzer ID</th>";
-    echo "<th>Vorname</th>";
-    echo "<th>Nachname</th>";
-    echo "<th>Ort</th>";
-    echo "<th>E-Mail</th>";
-    echo "</th>";
+    echo "<th scope='col'>Benutzer ID</th>";
+    echo "<th scope='col'>Vorname</th>";
+    echo "<th scope='col'>Nachname</th>";
+    echo "<th scope='col'>Ort</th>";
+    echo "<th scope='col'>E-Mail</th>";
+    echo "<th scope='col'></th>";
     echo "</tr>";
     
 //Tabelleninhalt auflisten
