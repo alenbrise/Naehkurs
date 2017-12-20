@@ -1,40 +1,20 @@
 <?php checkForAuthorization(true); ?>
 <body>
-    <nav class="navbar navbar-inverse">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>                        
-                </button>
-                <div class="navbar-brand" >Kursübersicht</div>
-            </div>
-            <div class="collapse navbar-collapse" id="myNavbar">
-                <ul class="nav navbar-nav">
-                    <li class="active"><a href="index.php?page=adminHome">Home</a></li>
-                    <li class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Menü <span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="index.php?page=createNewCourse">Kurs erstellen</a></li>
-                            <li><a href="index.php?page=revenue">Abrechnung ausgeben</a></li>
-                            <li><a href="index.php?page=adminHome">Rechnung aufrufen</a></li>
-                            <li><a href="index.php?page=users">Benutzerübersicht</a></li>
-                        </ul>
-                    </li> 
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a href="index.php?page=logout"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+   <?php
+   $pagename = "adminHome";
+   echo getAdminNavbar($pagename);
+   ?>
 </body>
 
 <?php
+if (isset($_GET['deletedCourse'])){
+    echo "<div class='alert alert-success' role='alert'>Der Kurs konnte erfolgreich gelöscht werden</div>";
+}
 if (isset($_GET['forwarded'])) {
     if ($_GET['forwarded'] == 1) {
         prompt("Die Kursdaten wurden aktualisiert!");
+    }else if($_GET['forwarded'] == 2){
+         echo "<div class='alert alert-success' role='alert'>Die Kursdaten konnten erfolgreich erfasst werden!</div>";
     }
 }
 $linecolor = false;
@@ -79,8 +59,9 @@ if (!isset($sortieren)) {
                 $row = $value;
             }
         }
-        echo "<td><a href=index.php?page=courseMembers&courseID=$row>Teilnehmerliste</a>\n"
-        . "<a href=index.php?page=editCourse&courseID=$row>Kurs bearbeiten</a></td>";
+        echo "<td><a class='btn btn-default' href=index.php?page=courseMembers&courseID=$row>Teilnehmerliste</a>"
+                . "<a class='btn btn-default' href=index.php?page=editCourse&courseID=$row>Kurs bearbeiten</a>"
+                . "<a class='btn btn-default' href=index.php?page=editCourse&deleteCourse=1&courseID=$row>Kurs löschen</a></td>";
 
 
         echo"</tr>";

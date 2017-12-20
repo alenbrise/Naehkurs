@@ -68,7 +68,7 @@ if (isset($_POST['txtEmail']) AND isset($_POST['txtPasswort'])) {
             <label for="txtPasswort">Passwort:</label>
             <input type="password" class="form-control" name="txtPasswort" placeholder="Passwort">
         </div>
-        <button type="submit">Anmelden</button>
+        <button class="btn btn-default" type="submit">Anmelden</button>
     </form>
 </body>
 

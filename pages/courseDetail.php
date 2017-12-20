@@ -1,25 +1,9 @@
 <?php checkForAuthorization(false); ?>
 <body>
-    <nav class="navbar navbar-inverse">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>                        
-                </button>
-                <div class="navbar-brand" >Kursdetails</div>
-            </div>
-            <div class="collapse navbar-collapse" id="myNavbar">
-                <ul class="nav navbar-nav">
-                    <li class="active"><a href="index.php?page=userHome">Home</a></li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a href="index.php?page=logout"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+   <?php 
+   $pagename = "courseDetail";
+    echo getUserNavbar($pagename);
+    ?>
 </body>
 <?php
 $courseID = $_GET['courseID'];
@@ -63,6 +47,5 @@ mysqli_close($link);
         <div class="courseDescription"><?php echo "Anzahl freie Plätze: " . $courseDetails["Freie_Plaetze"]; ?></div>
         <input type="hidden" id="buttonClicked" name="buttonClicked">
         <input type="button" value="Anmelden" onclick="buttonClick(1);">
-        <!--<button id = "logout" type="submit">Ausloggen</button>-->
     </form>
 </body>

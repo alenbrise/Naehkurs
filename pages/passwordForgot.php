@@ -34,6 +34,6 @@ if (isset($_POST['txtEmail'])) {
             <label for="txtEmail">E-Mail</label>
             <input type="email" class="form-control" name="txtEmail" placeholder="E-Mail eingeben">
         </div>
-        <button type="submit" >Passwort anfordern</button>
+        <button class="btn btn-default" type="submit" >Passwort anfordern</button>
     </form>
 </body>

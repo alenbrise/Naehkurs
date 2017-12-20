@@ -1,7 +1,8 @@
 <?php checkForAuthorization(true); ?>
 <body>
    <?php
-   echo getAdminNavbar();
+   $pagename = "revenue";
+   echo getAdminNavbar($pagename);
    ?>
 </body>
 
@@ -24,6 +25,6 @@ if (isset($_POST['txtStartdate']) and ( $_POST['txtEnddate'])) {
             <label for="txtEnddate">Enddatum</label>
             <input type="date" class="form-control" name="txtEnddate" placeholder="01.01.1900">
         </div>
-        <button type="submit" >Abrechnung erstellen</button>
+        <button class="btn btn-default" type="submit" >Abrechnung erstellen</button>
     </form>
 </body>

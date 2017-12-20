@@ -75,12 +75,12 @@ function createUser() {
         $count = mysqli_num_rows($ergebnis);
 
         if ($count == 1) {
-            echo "<font>Diese E-Mail-Adresse wurde bereits erfasst!</font>";
+            echo "<div class='alert alert-danger' role='alert'>Diese E-Mail wurde bereits erfasst!</div>";
         } else {
             // Benutzer erfassen, weil noch nicht in DB vorhanden
             $insert = "INSERT INTO benutzer (`Benutzer_ID`, `Email`, `Passwort`, `Anrede`, `Vorname`, `Nachname`, `Adresse`, `PLZ`, `Ort`) VALUES('', '$email', '$pass', '$gender', '$firstname', '$lastname', '$address', '$zipcode', '$city')";
             mysqli_query($link, $insert)or die("DB-Eintrag hat nicht geklappt!");
-            header("Location:index.php?page=userHome&forwarded=4");
+            header("Location:index.php?page=startpage&forwarded=1");
         }
 
         // Datenbankverbindung beenden
@@ -95,7 +95,7 @@ function createCourse($coursename, $coursetext, $courseplace, $coursedate, $pric
 
     $insert = "INSERT INTO kurs (`Kurs_ID`, `Kursname`, `Kursbeschreibung`, `Kursort`, `Kursdatum`, `Kursstatus`, `Preis`, `Max_Plaetze`, `Min_Plaetze`, `Freie_Plaetze`) VALUES('', '$coursename', '$coursetext', '$courseplace', '$coursedate', 'offen', '$price', '$max', '$min', '$max')";
     mysqli_query($link, $insert)or die("DB-Eintrag hat nicht geklappt!");
-    prompt("Daten wurden erfasst!");
+    header("Location:index.php?page=adminHome&forwarded=2");
 
     // Datenbankverbindung beenden
     mysqli_close($link);
@@ -245,6 +245,11 @@ function getRevenueByCourse($startdate, $enddate){
 
     }    
     return $courseRevenues;
+}
+
+function deleteCourseByCourseId($courseId){
+    $query = "DELETE FROM `kurs` WHERE Kurs_ID='$courseId'";
+    mysqli_query(getDbConnection(), $query);
 }
 
 ?>

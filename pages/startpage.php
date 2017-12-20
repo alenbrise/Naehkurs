@@ -1,3 +1,8 @@
+<?php
+if (isset($_GET['forwarded'])){
+    echo "<div class='alert alert-success' role='alert'>Ihre Daten wurden erfasst!</div>";
+}
+?>
 <body>
     <nav class="navbar navbar-inverse">
         <div class="container-fluid">
@@ -16,7 +21,7 @@
             </div>
         </div>
     </nav>
-    <a href="index.php?page=registration">Registrierung</a>
-    <a href="index.php?page=login">Login</a>
-    <a href="index.php?page=passwordForgot">Passwort vergessen</a>
+    <a class="btn btn-default" href="index.php?page=registration">Registrierung</a>
+    <a class="btn btn-default" href="index.php?page=login">Login</a>
+    <a class="btn btn-default" href="index.php?page=passwordForgot">Passwort vergessen</a>
 </body>

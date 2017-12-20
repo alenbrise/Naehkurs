@@ -84,6 +84,6 @@ if (isset($_POST['gender']) and ( $_POST['txtFirstname']) and ( $_POST['txtNachn
             <label for="txtPasswordRepeat">Passwort wiederholen</label>
             <input type="password" class="form-control" name="txtPasswordRepeat" placeholder="Passwort wiederholen">
         </div>
-        <button type="submit" >Registrieren</button>
+        <button class="btn btn-default" type="submit" >Registrieren</button>
     </form>
 </body>

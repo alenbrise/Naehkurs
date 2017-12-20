@@ -109,7 +109,32 @@ function sendBill($receiver, $name, $billID, $courseID) {
     echo json_decode($response);
 }
 
-function getAdminNavbar(){
+function getPageName($pagename){
+    if($pagename == "adminHome"){
+        return "Kursübersicht";
+    }else if($pagename == "editBooking"){
+        return "Buchung bearbeiten";
+    }else if($pagename == "courseMembers"){
+        return "Teilnehmerliste";
+    }else if($pagename == "revenue"){
+        return "Abrechnung erstellen";
+    }else if($pagename == "users"){
+        return "Benutzer";
+    }else if($pagename == "createNewCourse"){
+        return "Kurs erstellen";
+    }else if($pagename == "courseDetail"){
+        return "Kursdetail";
+    }else if($pagename == "editCourse"){
+        return "Kurs bearbeiten";
+    }else if($pagename == "editUser"){
+        return "Benutzer bearbeiten";
+    }else if($pagename == "userHome"){
+        return "Kursübersicht";
+    }
+}
+
+function getAdminNavbar($pagename){
+    $pagenameForNavbar = getPageName($pagename);
     $navbar = ' <nav class="navbar navbar-inverse">
         <div class="container-fluid">
             <div class="navbar-header">
@@ -118,7 +143,7 @@ function getAdminNavbar(){
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>                        
                 </button>
-                <div class="navbar-brand" >Abrechnung</div>
+                <div class="navbar-brand"> <p>'.$pagenameForNavbar.'</p> </div>
             </div>
             <div class="collapse navbar-collapse" id="myNavbar">
                 <ul class="nav navbar-nav">
@@ -142,6 +167,30 @@ function getAdminNavbar(){
     return $navbar;
 }
 
+function getUserNavbar(){
+    $navbar = ' <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>                        
+                </button>
+                <div class="navbar-brand" >Kursübersicht</div>
+            </div>
+            <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="index.php?page=userHome">Home</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="index.php?page=logout"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>';
+    return $navbar;      
+}
+
 function getRevenueTable($courseRevenues) {
     $revenueTable = "<table class='table table-dark' border='0'>";
 
@@ -155,7 +204,7 @@ function getRevenueTable($courseRevenues) {
     //Tabelleninhalt auflisten
     $rowCounter = 0;
     foreach ($courseRevenues as $courseRevenue) {
-        $backgroundColor = ($rowCounter % 2 == 1) ? 'bgcolor=#DCDCDC' : 'bgcolor=#FFFFFF';
+        $backgroundColor = ($rowCounter % 2 == 1) ? 'bgcolor=#DCDCDC' : '';
         $revenueTableRow = "<tr>";
         $revenueTableRow = '<tr'.' ' . $backgroundColor.'>';
         foreach ($courseRevenue as $val) {          

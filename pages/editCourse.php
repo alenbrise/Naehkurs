@@ -1,36 +1,17 @@
 <?php checkForAuthorization(true); ?>
 <body>
-    <nav class="navbar navbar-inverse">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>                        
-                </button>
-                <div class="navbar-brand" >Kurs bearbeiten</div>
-            </div>
-            <div class="collapse navbar-collapse" id="myNavbar">
-                <ul class="nav navbar-nav">
-                    <li class="active"><a href="index.php?page=adminHome">Home</a></li>
-                    <li class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Menü <span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="index.php?page=createNewCourse">Kurs erstellen</a></li>
-                            <li><a href="index.php?page=revenue">Abrechnung ausgeben</a></li>
-                            <li><a href="index.php?page=adminHome">Rechnung aufrufen</a></li>
-                            <li><a href="index.php?page=users">Benutzerübersicht</a></li>
-                        </ul>
-                    </li> 
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a href="index.php?page=logout"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+   <?php
+   $pagename = "editCourse";
+   echo getAdminNavbar($pagename);
+   ?>
 </body>
 <?php
+if (isset($_GET['deleteCourse']) && isset ($_GET['courseID'])){
+    deleteCourseByCourseId($_GET['courseID']);
+    header("Location:index.php?page=adminHome&deletedCourse=1");
+}
+    
+
 $courseID = $_GET['courseID'];
 
 $link = getDbConnection();
@@ -99,8 +80,7 @@ mysqli_close($link);
             <label for="txtTime">Uhrzeit</label>
             <input type="text" class="form-control" name="txtTime" value="<?php echo $courseDetails["Kurszeit"] ?>">
         </div>
-        <button type="submit" >Änderungen speichern</button>
-        <button type="submit" >Kurs löschen</button>
+        <button class="btn btn-default" type="submit" >Änderungen speichern</button>
     </form>
 </body>
 
