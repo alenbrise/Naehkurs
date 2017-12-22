@@ -175,58 +175,47 @@ function getRevenueTable($courseRevenues) {
 
 //sends password to user after resetting it
 function sendPW($receiver, $name, $password) {
-    $jsonData = '{
-  "personalizations": [
-    {
-      "to": [
-        {
-          "email": "' . $receiver . '",
-          "name": "' . $name . '"
-        }
-      ]
-    }
-  ],
-  "from": {
-    "email": "info@stoffzentrale.ch",
-    "name": "Stoffzentrale Baden"
-  },
-  "subject": "Passwort zurückgesetzt",
-  "content": [
-    {
-      "type": "text/html",
-      "value": "<html><p>' . $password . '</p></html>"
-    }
-  ]
-}';
+    require "./sendgrid-php/vendor/autoload.php";
 
-    /* TODO: add your API key */
-    $options = ["http" => [
-            "method" => "POST",
-            "header" => ["Content-Type: application/json",
-                "Authorization: Bearer " . $GLOBALS['APIkey']],
-            "content" => $jsonData
-    ]];
+    $from = new SendGrid\Email("Stoffzentrale Baden", "info@stoffzentrale.ch");
+    $subject = "Passwort zurückgesetzt";
+    $to = new SendGrid\Email($name, $receiver);
+    $content = new SendGrid\Content("text/html", "<h1>Neues Passwort</h1></br><p>Guten Tag</p><p>Ihr Passwort zur E-Mail-Adresse ".$receiver." wurde zurückgesetzt. Es lautet nun ".$password." !</p><p>Ihr Stoffzentrale-Team in Baden</p>");
+    $mail = new SendGrid\Mail($from, $subject, $to, $content);
 
-    /* TODO: Use stream_context_create and file_get_contents to send the API request */
-    $context = stream_context_create($options);
-    $response = file_get_contents("https://api.sendgrid.com/v3/mail/send", false, $context);
-    echo json_decode($response);
+    $sg = new \SendGrid($GLOBALS['APIkey']);
+
+    $response = $sg->client->mail()->send()->post($mail);
+}
+
+function sendDef($receiver, $billID, $name, $courseID, $courseName, $courseDate){
+    require "./sendgrid-php/vendor/autoload.php";
+
+    $from = new SendGrid\Email("Stoffzentrale Baden", "info@stoffzentrale.ch");
+    $subject = "Definitive Kursanmeldung";
+    $to = new SendGrid\Email($name, $receiver);
+    $content = new SendGrid\Content("text/html", "<h1>Definitive Kursteilnahme</h1></br><p>Guten Tag</p><p>Wir haben Ihre Zahlung zur Rechnung Nr. ".$billID." erhalten, besten Dank dafür.</p><p>Wir freuen uns, Sie am ".$courseDate." zum Kurs ".$courseName." begrüssen zu dürfen.</p><p>Bis dahin eine gute Zeit!</p></br><p>Ihr Stoffzentrale-Team in Baden </p>");
+    $mail = new SendGrid\Mail($from, $subject, $to, $content);
+
+    $sg = new \SendGrid($GLOBALS['APIkey']);
+
+    $response = $sg->client->mail()->send()->post($mail);
 }
 
 function sendBill($receiver, $name, $userID, $billID, $courseID) {
     require "./sendgrid-php/vendor/autoload.php";
     require "createPDF.php";
-    
+
     $bill = generateBill($userID, $billID, $courseID);
-    
+
     $from = new SendGrid\Email("Stoffzentrale Baden", "info@stoffzentrale.ch");
     $subject = "Rechnung zur Kursanmeldung";
     $to = new SendGrid\Email($name, $receiver);
-    $content = new SendGrid\Content("text/html", "<h1>Ihre Rechnung</h1>");
+    $content = new SendGrid\Content("text/html", "<h1>Rechnung Nr. ".$billID."</h1></br></br><p>Besten Dank für Ihre Anmeldung. Anbei erhalten Sie die Rechnung zu Ihrer Kursanmeldung und alle Details, die Sie zu deren Begleichung benötigen.</p><p>Bei Fragen können Sie uns selbstverständlich kontaktieren.</p></br></br></br><p>Wir freuen uns auf Sie!</p><p>Ihr Stoffzentrale-Team in Baden</p>");
     $attachment = new SendGrid\Attachment();
     $attachment->setContent($bill);
     $attachment->setType("application/pdf");
-    $attachment->setFilename($billID.".pdf");
+    $attachment->setFilename($billID . ".pdf");
     $attachment->setDisposition("attachment");
     $attachment->setContentId("Balance Sheet");
     $mail = new SendGrid\Mail($from, $subject, $to, $content);
@@ -235,6 +224,6 @@ function sendBill($receiver, $name, $userID, $billID, $courseID) {
     $sg = new \SendGrid($GLOBALS['APIkey']);
 
     $response = $sg->client->mail()->send()->post($mail);
-}   
+}
 ?>
 

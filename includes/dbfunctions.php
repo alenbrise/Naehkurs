@@ -184,8 +184,37 @@ function getBookingByBookingId($bookingId){
 
 function updateParticipantStatus($userId, $courseId, $status){
     $status = $_POST['Anmeldestatus'];
-    $update = "UPDATE `kursanmeldung`SET Anmeldestatus='$status' WHERE Benutzer_ID='$userId' AND Kurs_ID='$courseId'";
-    mysqli_query(getDbConnection(), $update) or die("Eintrag nicht geklappt");
+    $link = getDbConnection();
+    $update = "UPDATE `kursanmeldung` SET Anmeldestatus='$status' WHERE Benutzer_ID='$userId' AND Kurs_ID='$courseId'";
+    mysqli_query($link, $update) or die("Eintrag nicht geklappt");
+    
+    $abfrage = "SELECT Email, Vorname, Nachname FROM `benutzer` WHERE $userId = Benutzer_ID";
+    $res = mysqli_query($link, $abfrage) or die("Abfrage nicht geklappt");
+
+    $userDetails = array();
+    while ($zeile = mysqli_fetch_Assoc($res)) {
+        while (list($key, $value) = each($zeile)) {
+            $userDetails[$key] = $value;
+        }
+    }
+    
+    $abfrage = "SELECT Kursname, Kursdatum FROM `kurs` WHERE $courseId=Kurs_ID";
+    $res = mysqli_query($link, $abfrage) or die("Abfrage nicht geklappt");
+
+    $courseDetails = array();
+    while ($zeile = mysqli_fetch_Assoc($res)) {
+        while (list($key, $value) = each($zeile)) {
+            $courseDetails[$key] = $value;
+        }
+    }
+    
+    $billID = getBillID($userId, $courseId);
+    echo $status;
+    if($status == "definitiv"){
+        sendDef($userDetails["Email"], $billID, $userDetails["Vorname"]." ".$userDetails["Nachname"], $courseId, $courseDetails["Kursname"], $courseDetails["Kursdatum"]);
+    }
+    
+    mysqli_close($link);
 }
 
 function getUsernameByBookingId($bookingId){
