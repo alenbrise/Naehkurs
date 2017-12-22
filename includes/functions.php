@@ -108,7 +108,7 @@ function getAdminNavbar($pagename) {
                         <ul class="dropdown-menu">
                             <li><a href="index.php?page=createNewCourse">Kurs erstellen</a></li>
                             <li><a href="index.php?page=revenue">Abrechnung ausgeben</a></li>
-                            <li><a href="index.php?page=adminHome">Rechnung aufrufen</a></li>
+                            <li><a href="index.php?page=getBill">Rechnung aufrufen</a></li>
                             <li><a href="index.php?page=users">Benutzerübersicht</a></li>
                         </ul>
                     </li> 
@@ -204,7 +204,7 @@ function sendDef($receiver, $billID, $name, $courseID, $courseName, $courseDate)
 
 function sendBill($receiver, $name, $userID, $billID, $courseID) {
     require "./sendgrid-php/vendor/autoload.php";
-    $bill = generateBill($userID, $billID, $courseID);
+    $bill = generateBill($userID, $billID, $courseID, "S");
 
     $from = new SendGrid\Email("Stoffzentrale Baden", "info@stoffzentrale.ch");
     $subject = "Rechnung zur Kursanmeldung";
@@ -224,7 +224,7 @@ function sendBill($receiver, $name, $userID, $billID, $courseID) {
     $response = $sg->client->mail()->send()->post($mail);
 }
 
-function generateBill($userID, $billID, $courseID) {
+function generateBill($userID, $billID, $courseID, $open) {
     include ("././res/fpdf/fpdf.php");
 
     getDbConnection();
@@ -307,7 +307,55 @@ function generateBill($userID, $billID, $courseID) {
     //$pdf->Write(5, $text);
     $pdf->Ln(); //Zeilenumbruch
     $pdf->Image("./res/img/stoffzentrale.jpg",10, 10, 20);
-    return base64_encode($pdf->Output("S", $billID . ".pdf"));
+    return base64_encode($pdf->Output($open, $billID . ".pdf"));
+}
+
+function checkIfUserExists($mail){
+    $exist = false;
+    $link = getDbConnection();
+
+    $abfrage = "SELECT Benutzer_ID  FROM `benutzer` WHERE Email='$mail'";
+    $res = mysqli_query($link, $abfrage) or die("Verbindung zu Datenbank fehlgeschlagen");
+    $count = mysqli_num_rows($res);
+
+    if ($count == 1) {
+      $exist = true;
+    } 
+    
+    mysqli_close($link);
+    return $exist;
+}
+
+function checkIfCourseExists($name){
+    $exist = false;
+    $link = getDbConnection();
+
+    $abfrage = "SELECT Kurs_ID  FROM `kurs` WHERE Kursname='$name'";
+    $res = mysqli_query($link, $abfrage) or die("Verbindung zu Datenbank fehlgeschlagen");
+    $count = mysqli_num_rows($res);
+
+    if ($count == 1) {
+      $exist = true;
+    } 
+    
+    mysqli_close($link);
+    return $exist;
+}
+
+function checkIfBillExists($userID, $courseID){
+    $exist = false;
+    $link = getDbConnection();
+
+    $abfrage = "SELECT Kurs_ID  FROM `kursanmeldung` WHERE Kurs_ID='$courseID' AND Benutzer_ID = '$userID'";
+    $res = mysqli_query($link, $abfrage) or die("Verbindung zu Datenbank fehlgeschlagen");
+    $count = mysqli_num_rows($res);
+
+    if ($count == 1) {
+      $exist = true;
+    } 
+    
+    mysqli_close($link);
+    return $exist;
 }
 
 ?>

@@ -156,9 +156,19 @@ function getUserIDFromMail($email) {
     while ($row = mysqli_fetch_Assoc($res)) {
         $userID = $row["Benutzer_ID"];
     }
-    return $userID;
-
     mysqli_close($link);
+    return $userID;
+}
+
+function getCourseIDFromName($name) {
+    $link = getDbConnection();
+    $abfrage = "SELECT Kurs_ID FROM `kurs` WHERE Kursname='$name'";
+    $res = mysqli_query($link, $abfrage)or die("DB-Eintrag hat nicht geklappt!");
+    while ($row = mysqli_fetch_Assoc($res)) {
+        $courseID = $row["Kurs_ID"];
+    }
+    mysqli_close($link);
+    return $courseID;   
 }
 
 function getBillID($userID, $courseID) {

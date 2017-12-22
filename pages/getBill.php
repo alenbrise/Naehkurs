@@ -1,20 +1,29 @@
 
 <?php checkForAuthorization(true); ?>
 <body>
-   <?php
-   $pagename = "getBill";
-   echo getAdminNavbar($pagename);
-   ?>
+    <?php
+    $pagename = "getBill";
+    echo getAdminNavbar($pagename);
+    ?>
 </body>
 
 <?php
-
 if (isset($_POST['txtUserMail']) and ( $_POST['txtCourse'])) {
     $mail = $_POST['txtUserMail'];
     $course = $_POST['txtCourse'];
-    
-    $userID = getUserIDFromMail($email);
-    
+
+    if (checkIfUserExists($mail) && checkIfCourseExists($course)) {
+        $userID = getUserIDFromMail($mail);
+        $courseID = getCourseIDFromName($course);
+        if (checkIfBillExists($userID, $courseID)) {
+            $billID = getBillID($userID, $courseID);
+            generateBill($userID, $billID, $courseID, "D");
+        } else {
+            echo "<div class='alert alert-danger' role='alert'>Dieser Benutzer hat sich nicht für den angegebenen Kurs angemeldet!</div>";
+        }
+    } else {
+        echo "<div class='alert alert-danger' role='alert'>Diesen Kurs oder Benutzer gibt es nicht!</div>";
+    }
 }
 ?>
 
