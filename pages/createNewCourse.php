@@ -17,8 +17,18 @@ if (isset($_POST['txtCoursename']) and ( $_POST['txtCoursetext']) and ( $_POST['
     $time = $_POST['txtTime'];
 
     createCourse($coursename, $coursetext, $courseplace, $coursedate, $price, $max, $min, $time);
+}else if (isset($_POST['buttonClicked'])) {
+    if ($_POST['buttonClicked'] == 1) {
+        echo "<div class='alert alert-danger' role='alert'>Bitte füllen Sie alle Felder aus!</div>";
+    }
 }
 ?>
+<script>
+    function buttonClick(value) {
+        document.getElementById('buttonClicked').value = value;
+        document.getElementById('courseDetails').submit();
+    }
+</script>
 <body>
     <form name ="createNewCourse" method="post" action="index.php?page=createNewCourse">
         <div class="form-group">
@@ -54,6 +64,7 @@ if (isset($_POST['txtCoursename']) and ( $_POST['txtCoursetext']) and ( $_POST['
             <label for="txtTime">Uhrzeit</label>
             <input type="text" class="form-control" name="txtTime" placeholder="20:00">
         </div>
-        <button class="btn btn-default" type="submit" >Kurs erstellen</button>
+        <input type="hidden" id="buttonClicked" name="buttonClicked">
+        <button class="btn btn-default" type="submit" onclick="buttonClick(1);">Kurs erstellen</button>
     </form>
 </body>
