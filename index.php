@@ -4,7 +4,6 @@ session_start();
 include "./includes/config.inc.php";
 include "./includes/dbfunctions.php";
 include "./includes/functions.php";
-
 ?>
 
 <html>

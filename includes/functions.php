@@ -1,4 +1,5 @@
 <?php
+
 function setSessionID($email, $isAdmin) {
     $_SESSION['benutzer_id'] = $email;
     if ($isAdmin) {
@@ -61,45 +62,6 @@ function generatePassword() {
     }
 
     return $result;
-}
-
-//sends Bill to customer after sign up for course
-function sendBill($receiver, $name, $userID, $billID, $courseID) {
-    $jsonData = '{
-  "personalizations": [
-    {
-      "to": [
-        {
-          "email": "' . $receiver . '",
-          "name": "' . $name . '"
-        }
-      ]
-    }
-  ],
-  "from": {
-    "email": "info@stoffzentrale.ch",
-    "name": "Stoffzentrale Baden"
-  },
-  "subject": "Rechnung zur Kursanmeldung",
-  "content": [
-    {
-      "type": "text/html",
-      "value": "<html><p>text</p></html>"
-    }
-  ]
-  "files":files["' . $billID . '"pdf]="' . $billID . '"pdf",
-}';
-    $options = ["http" => [
-            "method" => "POST",
-            "header" => ["Content-Type: application/json",
-                "Authorization: Bearer " . $GLOBALS['APIkey']],
-            "content" => $jsonData
-    ]];
-
-    /* TODO: Use stream_context_create and file_get_contents to send the API request */
-    $context = stream_context_create($options);
-    $response = file_get_contents("https://api.sendgrid.com/v3/mail/send", false, $context);
-    echo json_decode($response);
 }
 
 function getPageName($pagename) {
@@ -250,5 +212,29 @@ function sendPW($receiver, $name, $password) {
     $response = file_get_contents("https://api.sendgrid.com/v3/mail/send", false, $context);
     echo json_decode($response);
 }
+
+function sendBill($receiver, $name, $userID, $billID, $courseID) {
+    require "./sendgrid-php/vendor/autoload.php";
+    require "createPDF.php";
+    
+    $bill = generateBill($userID, $billID, $courseID);
+    
+    $from = new SendGrid\Email("Stoffzentrale Baden", "info@stoffzentrale.ch");
+    $subject = "Rechnung zur Kursanmeldung";
+    $to = new SendGrid\Email($name, $receiver);
+    $content = new SendGrid\Content("text/html", "<h1>Ihre Rechnung</h1>");
+    $attachment = new SendGrid\Attachment();
+    $attachment->setContent($bill);
+    $attachment->setType("application/pdf");
+    $attachment->setFilename($billID.".pdf");
+    $attachment->setDisposition("attachment");
+    $attachment->setContentId("Balance Sheet");
+    $mail = new SendGrid\Mail($from, $subject, $to, $content);
+    $mail->addAttachment($attachment);
+
+    $sg = new \SendGrid($GLOBALS['APIkey']);
+
+    $response = $sg->client->mail()->send()->post($mail);
+}   
 ?>
 

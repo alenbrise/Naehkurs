@@ -102,8 +102,6 @@ function createCourse($coursename, $coursetext, $courseplace, $coursedate, $pric
 }
 
 function createNewEnrolment($courseID, $userID) {
-    include "createPDF.php";
-    echo getcwd();
     $link = getDbConnection();
     $alreadyEnrolled = false;
     $freeSeats = 0;
@@ -136,7 +134,6 @@ function createNewEnrolment($courseID, $userID) {
         $update = "UPDATE `kurs`SET Freie_Plaetze='$freeSeats' WHERE Kurs_ID='$courseID'";
         mysqli_query($link, $update)or die("DB-Eintrag hat nicht geklappt!");
         $billID = getBillID($userID, $courseID);
-        generateBill($userID, $billID, $courseID);
         sendBill($_SESSION['benutzer_id'], $name." ".$surname, $userID, $billID, $courseID);
         header("Location:index.php?page=userHome&forwarded=1");
         mysqli_close($link);

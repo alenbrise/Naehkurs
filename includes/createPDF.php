@@ -15,8 +15,8 @@ function generateBill($userID, $billID, $courseID) {
 //Zahl 5 bedeutet Zeilenabstand
     $pdf->Write(5, $text);
     $pdf->Ln(); //Zeilenumbruch
-    //$pdf->Image("././res/img/stoffzentrale.jpg", 60, 50, 50);
-    $pdf->Output("F", "./bills/" . $billID . ".pdf"); //F neues PDF in Ordner i in Browser
+    //$pdf->Image("./img/stoffzentrale.jpg", 60, 50, 50);
+    return base64_encode($pdf->Output("S", $billID . ".pdf")); 
 }
 
 ?>
