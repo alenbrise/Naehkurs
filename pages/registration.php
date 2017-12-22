@@ -30,7 +30,7 @@ if (isset($_POST['gender']) and ( $_POST['txtFirstname']) and ( $_POST['txtNachn
     $password2 = $_POST['txtPasswordRepeat'];
     $pass = md5($password1);
 
-    createUser($gender, $firstname, $lastname, $address, $zipcode, $city, $email, $password1, $password2, $pass);
+    $newUser = createUser($gender, $firstname, $lastname, $address, $zipcode, $city, $email, $password1, $password2, $pass);
 }
 ?>
 <body>

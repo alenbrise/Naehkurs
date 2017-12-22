@@ -53,7 +53,7 @@ function setPassword($email, $password) {
 }
 
 function createUser() {
-
+    $newUser = false;
     if (isset($_POST['gender']) and ( $_POST['txtFirstname']) and ( $_POST['txtNachname']) and ( $_POST['txtAddresse']) and ( $_POST['txtZipCode']) and ( $_POST['txtCity']) and ( $_POST['txtEmail']) and ( $_POST['txtPassword'])) {
         $gender = $_POST['gender'];
         $firstname = $_POST['txtFirstname'];
@@ -76,16 +76,21 @@ function createUser() {
 
         if ($count == 1) {
             echo "<div class='alert alert-danger' role='alert'>Diese E-Mail wurde bereits erfasst!</div>";
+        } else if ($password1 != $password2) {
+            echo "<div class='alert alert-danger' role='alert'>Ihre Passwörter stimmen nicht überein!</div>";
         } else {
             // Benutzer erfassen, weil noch nicht in DB vorhanden
             $insert = "INSERT INTO benutzer (`Benutzer_ID`, `Email`, `Passwort`, `Anrede`, `Vorname`, `Nachname`, `Adresse`, `PLZ`, `Ort`) VALUES('', '$email', '$pass', '$gender', '$firstname', '$lastname', '$address', '$zipcode', '$city')";
             mysqli_query($link, $insert)or die("DB-Eintrag hat nicht geklappt!");
+            $newUser = true;
             header("Location:index.php?page=startpage&forwarded=1");
+            return $newUser;
         }
 
         // Datenbankverbindung beenden
         mysqli_close($link);
     }
+    
 }
 
 function createCourse($coursename, $coursetext, $courseplace, $coursedate, $price, $max, $min) {
@@ -134,7 +139,7 @@ function createNewEnrolment($courseID, $userID) {
         $update = "UPDATE `kurs`SET Freie_Plaetze='$freeSeats' WHERE Kurs_ID='$courseID'";
         mysqli_query($link, $update)or die("DB-Eintrag hat nicht geklappt!");
         $billID = getBillID($userID, $courseID);
-        sendBill($_SESSION['benutzer_id'], $name." ".$surname, $userID, $billID, $courseID);
+        sendBill($_SESSION['benutzer_id'], $name . " " . $surname, $userID, $billID, $courseID);
         header("Location:index.php?page=userHome&forwarded=1");
         mysqli_close($link);
     } else if ($alreadyEnrolled) {
@@ -156,7 +161,7 @@ function getUserIDFromMail($email) {
     mysqli_close($link);
 }
 
-function getBillID($userID, $courseID){
+function getBillID($userID, $courseID) {
     $link = getDbConnection();
     $abfrage = "SELECT Rechnung_ID FROM `kursanmeldung` WHERE Kurs_ID='$courseID' AND Benutzer_ID='$userID'";
     $res = mysqli_query($link, $abfrage)or die("DB-Eintrag hat nicht geklappt!");
@@ -168,11 +173,11 @@ function getBillID($userID, $courseID){
     mysqli_close($link);
 }
 
-function getBookingByBookingId($bookingId){
+function getBookingByBookingId($bookingId) {
     $abfrage = "SELECT * FROM `kursanmeldung` WHERE Rechnung_ID = $bookingId";
     $res = mysqli_query(getDbConnection(), $abfrage) or die("Abfrage nicht geklappt");
     $bookingDetails = array();
-    
+
     //form fields are filled with current values
     while ($zeile = mysqli_fetch_Assoc($res)) {
         while (list($key, $value) = each($zeile)) {
@@ -182,12 +187,12 @@ function getBookingByBookingId($bookingId){
     return $bookingDetails;
 }
 
-function updateParticipantStatus($userId, $courseId, $status){
+function updateParticipantStatus($userId, $courseId, $status) {
     $status = $_POST['Anmeldestatus'];
     $link = getDbConnection();
     $update = "UPDATE `kursanmeldung` SET Anmeldestatus='$status' WHERE Benutzer_ID='$userId' AND Kurs_ID='$courseId'";
     mysqli_query($link, $update) or die("Eintrag nicht geklappt");
-    
+
     $abfrage = "SELECT Email, Vorname, Nachname FROM `benutzer` WHERE $userId = Benutzer_ID";
     $res = mysqli_query($link, $abfrage) or die("Abfrage nicht geklappt");
 
@@ -197,7 +202,7 @@ function updateParticipantStatus($userId, $courseId, $status){
             $userDetails[$key] = $value;
         }
     }
-    
+
     $abfrage = "SELECT Kursname, Kursdatum FROM `kurs` WHERE $courseId=Kurs_ID";
     $res = mysqli_query($link, $abfrage) or die("Abfrage nicht geklappt");
 
@@ -207,43 +212,41 @@ function updateParticipantStatus($userId, $courseId, $status){
             $courseDetails[$key] = $value;
         }
     }
-    
+
     $billID = getBillID($userId, $courseId);
     echo $status;
-    if($status == "definitiv"){
-        sendDef($userDetails["Email"], $billID, $userDetails["Vorname"]." ".$userDetails["Nachname"], $courseId, $courseDetails["Kursname"], $courseDetails["Kursdatum"]);
+    if ($status == "definitiv") {
+        sendDef($userDetails["Email"], $billID, $userDetails["Vorname"] . " " . $userDetails["Nachname"], $courseId, $courseDetails["Kursname"], $courseDetails["Kursdatum"]);
     }
-    
+
     mysqli_close($link);
 }
 
-function getUsernameByBookingId($bookingId){
+function getUsernameByBookingId($bookingId) {
 
     $booking = getBookingByBookingId($bookingId);
-    $course = getCourseNameByBookingId($bookingId); 
-    
+    $course = getCourseNameByBookingId($bookingId);
+
     $abfrage = "SELECT Vorname, Nachname FROM `benutzer` WHERE Benutzer_ID =" . $booking["Benutzer_ID"];
     $res = mysqli_query(getDbConnection(), $abfrage) or die("Abfrage nicht geklappt");
     $username = "";
     //form fields are filled with current values
     while ($zeile = mysqli_fetch_Assoc($res)) {
         $username = $zeile['Vorname'] . ' ' . $zeile['Nachname'];
-        /*while (list($key, $value) = each($zeile)) {
-            if ($key == "Vorname") {
-                $userName = $value;
-            } else if ($key == "Nachname") {
-                $userName = $userName . " " . $value;
-            }
-        }*/
+        /* while (list($key, $value) = each($zeile)) {
+          if ($key == "Vorname") {
+          $userName = $value;
+          } else if ($key == "Nachname") {
+          $userName = $userName . " " . $value;
+          }
+          } */
     }
     return $username;
-    
-    
 }
 
-function getCourseNameByBookingId($bookingId){
-    
-    $booking = getBookingByBookingId($bookingId);    
+function getCourseNameByBookingId($bookingId) {
+
+    $booking = getBookingByBookingId($bookingId);
     $abfrage = "SELECT Kursname FROM `kurs` WHERE Kurs_ID = " . $booking["Kurs_ID"];
     $res = mysqli_query(getDbConnection(), $abfrage) or die("Abfrage nicht geklappt");
     $courseName = "";
@@ -256,17 +259,17 @@ function getCourseNameByBookingId($bookingId){
     return $courseName;
 }
 
-function deleteUserRegistrationByBookingId($bookingId){
+function deleteUserRegistrationByBookingId($bookingId) {
     $booking = getBookingByBookingId($bookingId);
     $userId = $booking['Benutzer_ID'];
     $courseId = $booking['Kurs_ID'];
     $query = "DELETE FROM `kursanmeldung` WHERE Kurs_ID='$courseId' AND Benutzer_ID='$userId'";
     mysqli_query(getDbConnection(), $query);
-    
+
     $query = "SELECT Rechnung_ID FROM `kursanmeldung` WHERE Kurs_ID='$courseId'";
     $res = mysqli_query(getDbConnection(), $query) or die("Abfrage nicht geklappt");
-    $count=mysqli_num_rows($res);
-    
+    $count = mysqli_num_rows($res);
+
     $query = "SELECT Max_Plaetze FROM `kurs` WHERE Kurs_ID='$courseId'";
     $res = mysqli_query(getDbConnection(), $query) or die("Abfrage nicht geklappt");
     while ($zeile = mysqli_fetch_Assoc($res)) {
@@ -274,26 +277,25 @@ function deleteUserRegistrationByBookingId($bookingId){
             $max = $value;
         }
     }
-    
-    $freeSeats = $max-$count;
-    
+
+    $freeSeats = $max - $count;
+
     $update = "UPDATE `kurs`SET Freie_Plaetze='$freeSeats' WHERE Kurs_ID='$courseId'";
     mysqli_query(getDbConnection(), $update) or die("Abfrage nicht geklappt");
 }
 
-function getRevenueByCourse($startdate, $enddate){ 
-    $abfrage = "SELECT kurs.Kursname as kursname, kurs.Kurs_ID as kursnummer, kurs.Kursdatum as kursdatum, SUM(kurs.Preis) as umsatz FROM `kurs` left join `kursanmeldung` ON kurs.Kurs_ID=kursanmeldung.Kurs_ID WHERE Kursdatum >= '".date($startdate)."' AND Kursdatum <= '".date($enddate)."' AND kursanmeldung.Anmeldestatus='definitiv' GROUP by kurs.Kurs_ID ORDER BY kurs.Kursdatum";
+function getRevenueByCourse($startdate, $enddate) {
+    $abfrage = "SELECT kurs.Kursname as kursname, kurs.Kurs_ID as kursnummer, kurs.Kursdatum as kursdatum, SUM(kurs.Preis) as umsatz FROM `kurs` left join `kursanmeldung` ON kurs.Kurs_ID=kursanmeldung.Kurs_ID WHERE Kursdatum >= '" . date($startdate) . "' AND Kursdatum <= '" . date($enddate) . "' AND kursanmeldung.Anmeldestatus='definitiv' GROUP by kurs.Kurs_ID ORDER BY kurs.Kursdatum";
     $res = mysqli_query(getDbConnection(), $abfrage) or die("Abfrage nicht geklappt");
     $courseRevenues = array();
     //form fields are filled with current values
     while ($zeile = mysqli_fetch_Assoc($res)) {
         $courseRevenues[] = $zeile;
-
-    }    
+    }
     return $courseRevenues;
 }
 
-function deleteCourseByCourseId($courseId){
+function deleteCourseByCourseId($courseId) {
     $query = "DELETE FROM `kurs` WHERE Kurs_ID='$courseId'";
     mysqli_query(getDbConnection(), $query);
 }
