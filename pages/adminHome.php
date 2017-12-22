@@ -8,13 +8,13 @@
 
 <?php
 if (isset($_GET['deletedCourse'])){
-    echo "<div class='alert alert-success' role='alert'>Der Kurs konnte erfolgreich gelöscht werden</div>";
+    echo "<div class='alert alert-success' role='alert'>Der Kurs wurde erfolgreich gelöscht!</div>";
 }
 if (isset($_GET['forwarded'])) {
     if ($_GET['forwarded'] == 1) {
-        prompt("Die Kursdaten wurden aktualisiert!");
+        echo "<div class='alert alert-success' role='alert'>Die Kursdaten wurden erfolgreich aktualisiert!</div>";
     }else if($_GET['forwarded'] == 2){
-         echo "<div class='alert alert-success' role='alert'>Die Kursdaten konnten erfolgreich erfasst werden!</div>";
+         echo "<div class='alert alert-success' role='alert'>Die Kursdaten wurden erfolgreich erfasst!</div>";
     }
 }
 $linecolor = false;

@@ -1,3 +1,6 @@
 body{
     background-image: url(https://stoffzentrale.ch/wp-content/themes/stoffzentrale/img/stof_muster_polka_color.jpg);
 }
+h1{
+    font-family: sans-serif;
+}

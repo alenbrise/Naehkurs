@@ -1,5 +1,4 @@
 <?php
-
 function setSessionID($email, $isAdmin) {
     $_SESSION['benutzer_id'] = $email;
     if ($isAdmin) {
@@ -51,11 +50,6 @@ function checkForAuthorization($needAdminPermission) {
     }
 }
 
-//prompts a message
-function prompt($message) {
-    echo "<script type='text/javascript'> alert('$message'); </script>";
-}
-
 function generatePassword() {
     $length = 8;
     $chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
@@ -70,7 +64,7 @@ function generatePassword() {
 }
 
 //sends Bill to customer after sign up for course
-function sendBill($receiver, $name, $billID, $courseID) {
+function sendBill($receiver, $name, $userID, $billID, $courseID) {
     $jsonData = '{
   "personalizations": [
     {
@@ -93,9 +87,8 @@ function sendBill($receiver, $name, $billID, $courseID) {
       "value": "<html><p>text</p></html>"
     }
   ]
+  "files":files["' . $billID . '"pdf]="' . $billID . '"pdf",
 }';
-
-    /* TODO: add your API key */
     $options = ["http" => [
             "method" => "POST",
             "header" => ["Content-Type: application/json",
@@ -109,31 +102,31 @@ function sendBill($receiver, $name, $billID, $courseID) {
     echo json_decode($response);
 }
 
-function getPageName($pagename){
-    if($pagename == "adminHome"){
+function getPageName($pagename) {
+    if ($pagename == "adminHome") {
         return "Kursübersicht";
-    }else if($pagename == "editBooking"){
+    } else if ($pagename == "editBooking") {
         return "Buchung bearbeiten";
-    }else if($pagename == "courseMembers"){
+    } else if ($pagename == "courseMembers") {
         return "Teilnehmerliste";
-    }else if($pagename == "revenue"){
+    } else if ($pagename == "revenue") {
         return "Abrechnung erstellen";
-    }else if($pagename == "users"){
+    } else if ($pagename == "users") {
         return "Benutzer";
-    }else if($pagename == "createNewCourse"){
+    } else if ($pagename == "createNewCourse") {
         return "Kurs erstellen";
-    }else if($pagename == "courseDetail"){
+    } else if ($pagename == "courseDetail") {
         return "Kursdetail";
-    }else if($pagename == "editCourse"){
+    } else if ($pagename == "editCourse") {
         return "Kurs bearbeiten";
-    }else if($pagename == "editUser"){
+    } else if ($pagename == "editUser") {
         return "Benutzer bearbeiten";
-    }else if($pagename == "userHome"){
+    } else if ($pagename == "userHome") {
         return "Kursübersicht";
     }
 }
 
-function getAdminNavbar($pagename){
+function getAdminNavbar($pagename) {
     $pagenameForNavbar = getPageName($pagename);
     $navbar = ' <nav class="navbar navbar-inverse">
         <div class="container-fluid">
@@ -143,7 +136,7 @@ function getAdminNavbar($pagename){
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>                        
                 </button>
-                <div class="navbar-brand"> <p>'.$pagenameForNavbar.'</p> </div>
+                <div class="navbar-brand"> <p>' . $pagenameForNavbar . '</p> </div>
             </div>
             <div class="collapse navbar-collapse" id="myNavbar">
                 <ul class="nav navbar-nav">
@@ -167,7 +160,7 @@ function getAdminNavbar($pagename){
     return $navbar;
 }
 
-function getUserNavbar(){
+function getUserNavbar() {
     $navbar = ' <nav class="navbar navbar-inverse">
         <div class="container-fluid">
             <div class="navbar-header">
@@ -188,7 +181,7 @@ function getUserNavbar(){
             </div>
         </div>
     </nav>';
-    return $navbar;      
+    return $navbar;
 }
 
 function getRevenueTable($courseRevenues) {
@@ -206,16 +199,16 @@ function getRevenueTable($courseRevenues) {
     foreach ($courseRevenues as $courseRevenue) {
         $backgroundColor = ($rowCounter % 2 == 1) ? 'bgcolor=#DCDCDC' : '';
         $revenueTableRow = "<tr>";
-        $revenueTableRow = '<tr'.' ' . $backgroundColor.'>';
-        foreach ($courseRevenue as $val) {          
-            $revenueTableRow .= '<td>' . $val. '</td>';
+        $revenueTableRow = '<tr' . ' ' . $backgroundColor . '>';
+        foreach ($courseRevenue as $val) {
+            $revenueTableRow .= '<td>' . $val . '</td>';
         }
         $revenueTableRow .= '</tr>';
         $revenueTable .= $revenueTableRow;
         $rowCounter++;
     }
     $revenueTable .= '</table>';
-    return $revenueTable;    
+    return $revenueTable;
 }
 
 //sends password to user after resetting it

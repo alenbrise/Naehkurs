@@ -32,15 +32,6 @@ if (isset($_POST['gender']) and ( $_POST['txtFirstname']) and ( $_POST['txtNachn
 
     createUser($gender, $firstname, $lastname, $address, $zipcode, $city, $email, $password1, $password2, $pass);
 }
-
-
-
-/* $user = checkUser($firstName, $nachname, $adresse, $zipCode, $city, $email, $password1, $password2);
-  if($user){
-  echo "user erstellt";
-  }else{
-  echo "nicht funktioniert";
-  } */
 ?>
 <body>
     <form name ="registration" method="post" onsubmit="onSumbit()" action="index.php?page=registration">

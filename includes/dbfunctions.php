@@ -102,6 +102,8 @@ function createCourse($coursename, $coursetext, $courseplace, $coursedate, $pric
 }
 
 function createNewEnrolment($courseID, $userID) {
+    include "createPDF.php";
+    echo getcwd();
     $link = getDbConnection();
     $alreadyEnrolled = false;
     $freeSeats = 0;
@@ -133,8 +135,9 @@ function createNewEnrolment($courseID, $userID) {
         $freeSeats--;
         $update = "UPDATE `kurs`SET Freie_Plaetze='$freeSeats' WHERE Kurs_ID='$courseID'";
         mysqli_query($link, $update)or die("DB-Eintrag hat nicht geklappt!");
-
-        sendBill($_SESSION['benutzer_id'], $name." ".$surname, getBillID($userID, $courseID), $courseID);
+        $billID = getBillID($userID, $courseID);
+        generateBill($userID, $billID, $courseID);
+        sendBill($_SESSION['benutzer_id'], $name." ".$surname, $userID, $billID, $courseID);
         header("Location:index.php?page=userHome&forwarded=1");
         mysqli_close($link);
     } else if ($alreadyEnrolled) {
@@ -233,6 +236,23 @@ function deleteUserRegistrationByBookingId($bookingId){
     $courseId = $booking['Kurs_ID'];
     $query = "DELETE FROM `kursanmeldung` WHERE Kurs_ID='$courseId' AND Benutzer_ID='$userId'";
     mysqli_query(getDbConnection(), $query);
+    
+    $query = "SELECT Rechnung_ID FROM `kursanmeldung` WHERE Kurs_ID='$courseId'";
+    $res = mysqli_query(getDbConnection(), $query) or die("Abfrage nicht geklappt");
+    $count=mysqli_num_rows($res);
+    
+    $query = "SELECT Max_Plaetze FROM `kurs` WHERE Kurs_ID='$courseId'";
+    $res = mysqli_query(getDbConnection(), $query) or die("Abfrage nicht geklappt");
+    while ($zeile = mysqli_fetch_Assoc($res)) {
+        while (list($key, $value) = each($zeile)) {
+            $max = $value;
+        }
+    }
+    
+    $freeSeats = $max-$count;
+    
+    $update = "UPDATE `kurs`SET Freie_Plaetze='$freeSeats' WHERE Kurs_ID='$courseId'";
+    mysqli_query(getDbConnection(), $update) or die("Abfrage nicht geklappt");
 }
 
 function getRevenueByCourse($startdate, $enddate){ 

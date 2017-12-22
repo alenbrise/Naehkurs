@@ -9,13 +9,13 @@
 <?php
 if (isset($_GET['forwarded'])) {
     if ($_GET['forwarded'] == 1) {
-        prompt("Sie haben sich erfolgreich für den Kurs angemeldet!");
+        echo "<div class='alert alert-success' role='alert'>Sie haben sich erfolgreich für den Kurs angemeldet!</div>";
     } else if ($_GET['forwarded'] == 2) {
-        prompt("Sie sind bereits für diesen Kurs eingetragen!");
+        echo "<div class='alert alert-danger' role='alert'>Sie haben sich bereits für diesen Kurs eingetragen!</div>";
     } else if ($_GET['forwarded'] == 3) {
-        prompt("Dieser Kurs ist bereits ausgebucht!");
+        echo "<div class='alert alert-danger' role='alert'>Der Kurs ist bereits ausgebucht!</div>";
     } else if ($_GET['forwarded'] == 4) {
-        prompt("Ihre Daten wurden erfasst!");
+        echo "<div class='alert alert-success' role='alert'>Ihre Daten wurden erfasst!</div>";
     }
 }
 $linecolor = false;

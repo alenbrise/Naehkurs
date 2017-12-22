@@ -8,7 +8,7 @@
 
 <?php
 if(isset($_GET["userDeleted"])){
-    echo "<div class='alert alert-success' role='alert'>Der Benutzer konnte erfolgreich gelöscht werden</div>";
+    echo "<div class='alert alert-success' role='alert'>Der Benutzer wurde erfolgreich gelöscht!</div>";
 }
 
 $courseID = $_GET['courseID'];

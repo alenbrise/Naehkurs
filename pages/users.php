@@ -8,7 +8,7 @@
 <?php
 if (isset($_GET['forwarded'])) {
     if ($_GET['forwarded'] == 1) {
-        prompt("Die Benutzerdaten wurden aktualisiert!");
+        echo "<div class='alert alert-success' role='alert'>Die Benutzerdaten wurden erfolgreich aktualisiert!</div>";
     }
 }
 $linecolor = false;

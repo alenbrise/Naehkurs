@@ -21,6 +21,8 @@ if (isset($_GET['forwarded'])){
             </div>
         </div>
     </nav>
+    <h1 >Herzlich Willkommen!</h1>
+    <h2 class="h2">Hier können Sie Nähkurse buchen, bitte melden Sie sich an!</h2>
     <a class="btn btn-default" href="index.php?page=registration">Registrierung</a>
     <a class="btn btn-default" href="index.php?page=login">Login</a>
     <a class="btn btn-default" href="index.php?page=passwordForgot">Passwort vergessen</a>

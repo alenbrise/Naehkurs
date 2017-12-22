@@ -25,6 +25,8 @@ while ($zeile = mysqli_fetch_Assoc($res)) {
         $courseDetails[$key] = $value;
     }
 }
+
+
 mysqli_close($link);
 ?>
 <script>

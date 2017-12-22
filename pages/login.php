@@ -20,10 +20,10 @@
 <?php
 if (isset($_GET['forwarded'])) {
     if ($_GET['forwarded'] == 1) {
-        prompt("Ihr neues Passwort sollten Sie in Kürze per E-Mail erhalten!");
+        echo "<div class='alert alert-success' role='alert'>Ihr neues Passwort sollten Sie in Kürze per E-Mail erhalten!</div>";
     }
     if ($_GET['forwarded'] == 2) {
-        prompt("Sie haben hier keinen Zutritt!");
+        echo "<div class='alert alert-success' role='alert'>Sie haben hier keinen Zutritt!</div>";
     }
 }
 
@@ -46,14 +46,13 @@ if (isset($_POST['txtEmail']) AND isset($_POST['txtPasswort'])) {
         $isAdmin = isAdmin($email, $pass);
 
         setSessionID($email, $isAdmin);
-
         if ($isAdmin) {
             header("Location:index.php?page=adminHome");
         } else {
             header("Location:index.php?page=userHome");
         }
     } else {
-        prompt("Login hat nicht geklappt. \\nVersuchen Sie es erneut!");
+        echo "<div class='alert alert-danger' role='alert'>Login hat nicht geklappt!</div>";
     }
     mysqli_close($link);
 }
