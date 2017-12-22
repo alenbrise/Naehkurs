@@ -30,11 +30,21 @@ if (isset($_POST['gender']) and ( $_POST['txtFirstname']) and ( $_POST['txtNachn
     $password2 = $_POST['txtPasswordRepeat'];
     $pass = md5($password1);
 
-    $newUser = createUser($gender, $firstname, $lastname, $address, $zipcode, $city, $email, $password1, $password2, $pass);
+    createUser($gender, $firstname, $lastname, $address, $zipcode, $city, $email, $password1, $password2, $pass);
+} else if (isset($_POST['buttonClicked'])) {
+    if ($_POST['buttonClicked'] == 1) {
+        echo "<div class='alert alert-danger' role='alert'>Bitte füllen Sie alle Felder aus!</div>";
+    }
 }
 ?>
+<script>
+    function buttonClick(value) {
+        document.getElementById('buttonClicked').value = value;
+        document.getElementById('courseDetails').submit();
+    }
+</script>
 <body>
-    <form name ="registration" method="post" onsubmit="onSumbit()" action="index.php?page=registration">
+    <form name ="registration" method="post" action="index.php?page=registration">
         <div class="form-group">
             <select name="gender" class="form-control">
                 <option value="male">Herr</option>
@@ -44,7 +54,7 @@ if (isset($_POST['gender']) and ( $_POST['txtFirstname']) and ( $_POST['txtNachn
 
         <div class="form-group">
             <label for="txtFirstname">Vorname</label>
-            <input type="text" class="form-control" name="txtFirstname" placeholder="Vorname">
+            <input type="text" class="form-control" id="firstname" name="txtFirstname" placeholder="Vorname">
         </div>
         <div class="form-group">
             <label for="txtNachname">Nachname</label>
@@ -75,6 +85,7 @@ if (isset($_POST['gender']) and ( $_POST['txtFirstname']) and ( $_POST['txtNachn
             <label for="txtPasswordRepeat">Passwort wiederholen</label>
             <input type="password" class="form-control" name="txtPasswordRepeat" placeholder="Passwort wiederholen">
         </div>
-        <button class="btn btn-default" type="submit" >Registrieren</button>
+        <input type="hidden" id="buttonClicked" name="buttonClicked">
+        <button class="btn btn-default" type="submit" onclick="buttonClick(1);">Registrieren</button>
     </form>
 </body>
