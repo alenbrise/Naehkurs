@@ -47,7 +47,7 @@ function setPassword($email, $password) {
         mysqli_query($link, $update) or die("Eintrag hat nicht geklappt!");
         sendPW($email, $name, $password);
     } else {
-        prompt("Diese E-Mail-Adresse existiert nicht!");
+        echo "<div class='alert alert-danger' role='alert'>Diese E-Mail existiert nicht!</div>";
     }
     mysqli_close($link);
 }
