@@ -93,12 +93,12 @@ function createUser() {
     
 }
 
-function createCourse($coursename, $coursetext, $courseplace, $coursedate, $price, $max, $min) {
+function createCourse($coursename, $coursetext, $courseplace, $coursedate, $price, $max, $min, $time) {
 
     // Create connection
     $link = getDbConnection();
 
-    $insert = "INSERT INTO kurs (`Kurs_ID`, `Kursname`, `Kursbeschreibung`, `Kursort`, `Kursdatum`, `Kursstatus`, `Preis`, `Max_Plaetze`, `Min_Plaetze`, `Freie_Plaetze`) VALUES('', '$coursename', '$coursetext', '$courseplace', '$coursedate', 'offen', '$price', '$max', '$min', '$max')";
+    $insert = "INSERT INTO kurs (`Kurs_ID`, `Kursname`, `Kursbeschreibung`, `Kursort`, `Kursdatum`, `Kursstatus`, `Preis`, `Max_Plaetze`, `Min_Plaetze`, `Freie_Plaetze`, `Kurszeit`) VALUES('', '$coursename', '$coursetext', '$courseplace', '$coursedate', 'offen', '$price', '$max', '$min', '$max', $time)";
     mysqli_query($link, $insert)or die("DB-Eintrag hat nicht geklappt!");
     header("Location:index.php?page=adminHome&forwarded=2");
 
